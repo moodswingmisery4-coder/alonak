@@ -19,16 +19,16 @@ Last updated: 2026-11-14 (local machine time zone)
 - Card click navigates straight to stay.html?id=... (no intermediate modal on index)
 - City dataset 1628 cities with Persian district labels ("تهران، منطقه ۱")
 
-## Latest UI state (deployed, commit 14328c5)
-- Destination field is 2fr on a 1.7fr/1.3fr/1.3fr/1.05fr/auto desktop grid; compact paddings
-- Date fields ~203px, guest ~164px, search button min 118px, all single-line with the × visible
-- City dropdown panel: 330px wide; chips 75×23, font 11.52px, 4 per row, 0 truncated
-- Calendar panel height now fits content (221px desktop, 266px mobile), no dead space
+## Latest UI state (deployed, commit 95cb786)
+- Desktop booking grid keeps the destination field wider so «شهر یا نام اقامتگاه» is not clipped.
+- Desktop guest label «تعداد نفرات» is forced onto one line; mobile booking remains stacked with no horizontal overflow.
+- City dropdown: maximum 5 cities per desktop row, 3 per mobile row; rows are centered and evenly aligned inside the panel; mobile chips keep a 44px touch height.
+- Booking popups open directly below their triggering field.
+- Calendar rules are deployed: past days are faded and disabled; check-in is today or later; checkout cannot be earlier than check-in.
+- Live URL verified after Pages propagation: https://moodswingmisery4-coder.github.io/makanak/?v=95cb786-final
 
 ## Open / unconfirmed
-- Soheil was NOT satisfied with the last chip/panel sizing pass ("ریدی"); the numbers are live
-  but he never confirmed the look. Re-check visually before further changes; ask him to point
-  at what is still wrong instead of guessing.
+- Visual confirmation of the latest calendar rules on Soheil's own device is still pending.
 - Test accounts created during E2E still exist in D1 (emails starting e2e/dbg/verify/flow/tok/final).
   Cleanup needs his explicit consent (the delete command was blocked once).
 - Deployment quirk: `wrangler deploy --domains ...` disables the workers.dev route. Use plain
