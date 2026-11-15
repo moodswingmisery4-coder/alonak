@@ -1,1 +1,79 @@
 :root{--page:#fff;--surface:#fff;--soft:#f5f7fa;--ink:#182338;--muted:#64748b;--line:#e2e8f0;--accent:#ff5c5c;--shadow:0 16px 48px #18233814;color-scheme:light}html[data-theme=dark]{--page:#0c121b;--surface:#151f2d;--soft:#1c2939;--ink:#edf2f8;--muted:#a8b6ca;--line:#2b3a4e;--accent:#ff8585;--shadow:0 16px 48px #0006;color-scheme:dark}body{background:var(--page)!important;color:var(--ink)!important}.theme-control{position:relative;display:inline-flex;flex-shrink:0}.theme-trigger{width:42px;height:42px;display:grid;place-items:center;border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);cursor:pointer;box-shadow:0 3px 12px #0000000a}.theme-trigger:hover{border-color:var(--accent);color:var(--accent)}.theme-trigger:focus-visible,.theme-options button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}.theme-menu{position:absolute;top:calc(100% + 12px);left:0;min-width:245px;padding:16px;border:1px solid var(--line);border-radius:20px;background:var(--surface);color:var(--ink);box-shadow:var(--shadow);z-index:200}.theme-menu[hidden]{display:none}.theme-menu p{font-size:13px;font-weight:700;margin:0 0 12px}.theme-options{display:flex;gap:4px;padding:4px;border-radius:12px;background:var(--soft)}.theme-options button{flex:1;padding:9px 10px;border-radius:9px;font-size:12px;font-weight:700;white-space:nowrap;color:var(--muted);cursor:pointer}.theme-options button[aria-pressed=true]{background:var(--surface);color:var(--accent);box-shadow:0 2px 8px #0002}body>header{z-index:100!important}html[data-theme=dark] .bg-white,html[data-theme=dark] .bg-white\/95{background:var(--surface)!important}html[data-theme=dark] .glass{background:rgba(21,31,45,.96)!important;color:var(--ink)!important;box-shadow:var(--shadow)}html[data-theme=dark] [class~="bg-slate-50"],html[data-theme=dark] [class~="bg-slate-100"],html[data-theme=dark] [class~="bg-slate-200"]{background:var(--soft)!important}html[data-theme=dark] [class~="bg-sand"],html[data-theme=dark] [class~="bg-orange-50"]{background:#1b232d!important}html[data-theme=dark] [class*="border-slate-"]{border-color:var(--line)!important}html[data-theme=dark] [class~="text-ink"]{color:var(--ink)!important}html[data-theme=dark] [class~="text-slate-400"],html[data-theme=dark] [class~="text-slate-500"],html[data-theme=dark] [class~="text-slate-600"]{color:var(--muted)!important}html[data-theme=dark] [class~="text-coral"]{color:var(--accent)!important}html[data-theme=dark] [class~="hover:bg-slate-50"]:hover,html[data-theme=dark] [class~="hover:bg-slate-100"]:hover,html[data-theme=dark] [class~="hover:bg-orange-100"]:hover{background:#28374a!important}html[data-theme=dark] #bookingSearch .booking-active{background:#352730!important}html[data-theme=dark] #bookingPanel,html[data-theme=dark] #citySuggestions{background:var(--surface)!important;color:var(--ink)!important;border-color:var(--line)!important;box-shadow:var(--shadow)}html[data-theme=dark] #calPrev,html[data-theme=dark] #calNext{background:var(--soft)!important}html[data-theme=dark] #bookingPanel #guestPlus{background:#163c2b!important;color:#73e6a5!important;border-color:#2b6a4b!important}html[data-theme=dark] #bookingPanel #guestMinus{background:#452630!important;color:#ff9ea8!important;border-color:#764052!important}html[data-theme=dark] .calendar-day:hover{background:#344356!important}html[data-theme=dark] .calendar-day.bg-coral{background:#dd4d58!important;color:white!important}html[data-theme=dark] #cards article{background:var(--surface);border-radius:18px;padding:8px;box-shadow:0 0 0 1px var(--line)}html[data-theme=dark] #cards article>.pt-4{padding:12px 6px 6px}html[data-theme=dark] [class~="bg-white/90"]{background:#192636ed!important;color:var(--ink)!important}html[data-theme=dark] input{color:var(--ink)}html[data-theme=dark] input::placeholder{color:var(--muted)}html[data-theme=dark] [class~="bg-coral"]{background-color:#be3648!important;color:#fff!important}html[data-theme=dark] .hero-copy{text-shadow:0 2px 12px #0009}html[data-theme=dark] .theme-options button[aria-pressed=true]{box-shadow:inset 0 0 0 1px var(--accent)}html[data-theme=dark] #loginBtn{background:var(--surface)!important;color:var(--ink)!important}@media(max-width:420px){.theme-trigger{width:36px;height:36px;border-radius:12px}header nav{gap:8px}#loginBtn{padding-inline:10px;font-size:12px}.theme-menu{min-width:225px}}@media(prefers-reduced-motion:no-preference){body,.theme-trigger,.theme-menu{transition:background-color .18s ease,color .18s ease,border-color .18s ease}}
+/* ---- Makanak booking widget ---- */
+.bk-widget{position:relative;display:flex;flex-direction:column;gap:10px;color:var(--ink)}
+.bk-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.bk-field{text-align:right;border:1px solid var(--line);border-radius:14px;padding:9px 14px;background:var(--surface);display:flex;flex-direction:column;gap:2px;cursor:pointer;transition:border-color .15s,box-shadow .15s;font-family:inherit}
+.bk-field:nth-child(3){grid-column:1/-1}
+.bk-field:hover{border-color:var(--accent)}
+.bk-field.is-active{border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,92,92,.18)}
+.bk-label{font-size:11px;color:var(--muted)}
+.bk-value{font-size:14px;font-weight:700;color:var(--ink);line-height:1.7}
+.bk-field:not(.has-value) .bk-value{color:var(--muted);font-weight:600}
+.bk-summary{background:var(--soft);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;font-size:13px}
+.bk-row{display:flex;justify-content:space-between;align-items:center;color:var(--muted)}
+.bk-row b{color:var(--ink);font-weight:800}
+.bk-total{border-top:1px dashed var(--line);padding-top:8px;margin-top:2px;color:var(--ink);font-weight:800}
+.bk-hint{color:var(--muted);font-size:12px;line-height:1.9}
+.bk-error{color:#dc2626;font-size:12px;margin:0;line-height:1.8}
+.bk-error[hidden]{display:none}
+.bk-submit{background:var(--accent);color:#fff;border-radius:14px;padding:14px;font-weight:800;font-size:15px;transition:filter .15s;font-family:inherit}
+.bk-submit:hover{filter:brightness(1.05)}
+.bk-submit:disabled{opacity:.65;cursor:progress}
+.bk-note{font-size:11px;color:var(--muted);text-align:center;margin:0;line-height:1.8}
+.bk-popup{position:absolute;left:0;right:0;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:14px;z-index:60}
+.bk-popup[hidden]{display:none}
+.bk-cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:14px;font-weight:800}
+.bk-nav{width:30px;height:30px;border-radius:10px;background:var(--soft);color:var(--ink);font-size:16px;line-height:1;font-weight:800}
+.bk-week,.bk-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.bk-week span{font-size:11px;color:var(--muted);padding-bottom:4px}
+.bk-day{border-radius:10px;padding:8px 0;font-size:13px;font-weight:700;color:var(--ink);background:transparent;transition:background .15s}
+.bk-day:hover:not(:disabled){background:var(--soft)}
+.bk-day.is-today{outline:1px solid var(--accent);outline-offset:-1px}
+.bk-day.is-selected{background:var(--accent);color:#fff}
+.bk-day.is-disabled{color:var(--muted);opacity:.35;cursor:not-allowed}
+.bk-empty{display:block}
+.bk-cal-foot{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:11px;color:var(--muted)}
+.bk-cal-foot button{font-size:12px;font-weight:800;color:var(--accent)}
+.bk-guests{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.bk-guests b{font-size:14px}
+.bk-guests p{font-size:11px;color:var(--muted);margin-top:4px}
+.bk-stepper{display:flex;align-items:center;gap:10px}
+.bk-stepper button{width:34px;height:34px;border-radius:50%;background:var(--soft);color:var(--ink);font-size:16px;font-weight:900;line-height:1}
+.bk-stepper button:hover{background:var(--accent);color:#fff}
+.bk-success{text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center;padding:6px 0}
+.bk-success-icon{width:46px;height:46px;border-radius:50%;background:#dcfce7;color:#15803d;display:grid;place-items:center;font-size:22px;font-weight:900}
+.bk-success b{font-size:15px}
+.bk-success>p{font-size:12px;color:var(--muted);margin:0}
+.bk-success ul{width:100%;list-style:none;padding:12px;margin:4px 0;background:var(--soft);border-radius:14px;display:flex;flex-direction:column;gap:7px;font-size:12px}
+.bk-success li{display:flex;justify-content:space-between;color:var(--muted)}
+.bk-success li b{color:var(--ink);font-size:12px}
+.bk-success-note{font-size:11px;color:var(--muted);line-height:1.9;margin:0}
+.bk-success button{width:100%;background:var(--accent);color:#fff;border-radius:12px;padding:12px;font-weight:800;font-family:inherit}
+@media(max-width:420px){.bk-fields{grid-template-columns:1fr}.bk-field:nth-child(3){grid-column:1}}
+
+/* ---- Makanak account panel ---- */
+.chip{display:inline-block;font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px;margin-inline-start:6px;white-space:nowrap}
+.chip-wait{background:#fef3c7;color:#b45309}
+.chip-ok{background:#dcfce7;color:#15803d}
+.chip-muted{background:#e2e8f0;color:#475569}
+html[data-theme=dark] .chip-wait{background:#3f2d0c;color:#fbbf24}
+html[data-theme=dark] .chip-ok{background:#0f3320;color:#4ade80}
+html[data-theme=dark] .chip-muted{background:#22303f;color:#94a3b8}
+.account-bookings{max-height:250px;overflow:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:12px;padding-inline-end:2px}
+.booking-row{border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:var(--surface)}
+.booking-row-head{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px;color:var(--ink)}
+.booking-meta{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.9}
+.booking-cancel{margin-top:8px;font-size:11px;font-weight:800;color:#dc2626;border:1px solid #fecaca;border-radius:10px;padding:6px 10px;background:transparent}
+.booking-cancel:hover{background:#fee2e2}
+html[data-theme=dark] .booking-cancel{border-color:#7f1d1d;color:#fca5a5}
+html[data-theme=dark] .booking-cancel:hover{background:#3f1414}
+.account-box{border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:10px;background:var(--surface)}
+.account-box-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:13px;color:var(--ink)}
+.account-hint{font-size:11px;color:var(--muted);line-height:1.9;margin:0 0 8px}
+.account-btn{width:100%;background:var(--soft);color:var(--ink);border-radius:10px;padding:9px;font-weight:800;font-size:12px}
+.account-btn:hover{background:var(--accent);color:#fff}
+.account-box input{border-color:var(--line);background:var(--soft);color:var(--ink)}
+
+#modal>.bg-white{max-height:88vh;overflow-y:auto;overscroll-behavior:contain}
+#modal>.bg-white::-webkit-scrollbar{width:8px}
+#modal>.bg-white::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:8px}
