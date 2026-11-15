@@ -1,6 +1,6 @@
 # Makanak — session state
 
-Last updated: 2026-11-14 (local machine time zone)
+Last updated: 2026-11-15 (local machine time zone)
 
 ## Live surfaces
 - Frontend (GitHub Pages): https://moodswingmisery4-coder.github.io/makanak/
@@ -8,46 +8,42 @@ Last updated: 2026-11-14 (local machine time zone)
 - Local frontend: D:\hermes\makanak
 - Backend repo/local: D:\hermes\makanak-worker (Cloudflare Worker, module syntax)
 - API base 1 (primary): https://makanak-worker.makanak-app.workers.dev/api
-- API base 2 (fallback): https://makanak.kdns.fr/api  ← blocked on Soheil's mobile LTE; works elsewhere
-- D1 database: makanak-db (6d0fd00a-a76b-401b-9baf-9f31c55f2b45), tables users / sessions / bookings
+- API base 2 (fallback): https://makanak.kdns.fr/api — not routed any more (see Open)
+- D1 database: makanak-db (6d0fd00a-a76b-401b-9baf-9f31c55f2b45)
+- Tables: users (verified), sessions, stays (84 seeded from catalog.js), bookings (nights), email_tokens, rate_limits
+
+## Backend hardening — 2026-11-15 (deployed)
+- Passwords: PBKDF2-SHA256, 100k iterations, 16-byte salt (pbkdf2$iters$salt$hash); legacy salt.sha256 hashes verify and auto-rehash on next login.
+- Rate limits in D1 (rate_limits): 150 req/min per IP, 8 registers / 12 logins / 5 reset requests per 15 min, 20 bookings per user per hour.
+- Booking validation server-side: stay must exist in stays; ISO dates; check-in >= today (Asia/Tehran +03:30); check-out > check-in; max 60 nights; guests 1-30 and <= stay.capacity; overlapping non-cancelled booking for the same stay -> 409; total price computed by the server (client price ignored).
+- Cancel: DELETE /api/bookings/:id — only own pending booking with future check-in; confirmed/cancelled -> 409.
+- Account: PATCH /api/auth/me (name/phone, phone normalized to 09xxxxxxxxx), POST /api/auth/password (needs current password, kills other sessions).
+- Email verify + password reset: POST /api/auth/verify/request|confirm, /api/auth/reset/request|confirm with 6-digit codes (15 min TTL, hashed in email_tokens). Sending uses Resend and needs RESEND_API_KEY (+ optional MAIL_FROM); while unset those endpoints answer 503 with a Persian message and /api/health reports email:false.
+- /api/auth/me returns 200 {user:null} for anonymous (the front end depends on it).
+
+## Frontend — 2026-11-15 (deployed)
+- assets/booking.js (v=5): pro booking widget on stay.html — Jalali calendar popups for check-in/check-out (past days disabled, checkout opens on the check-in month, max 60 nights), guest stepper capped at the stay capacity, live «X شب × قیمت = مبلغ کل» summary, inline Persian errors, success card with nights/total and a link to the panel.
+- assets/auth.js (v=7): login/register/reset screens, requireLogin() returns a promise so the booking continues right after login, account panel with booking rows + status chips + cancel button, profile form, change-password form, email-verification block, logout.
+- assets/theme.css (v=3): .bk-* widget styles and .account-*/.chip panel styles (light + dark), plus #modal > .bg-white max-height 88vh scroll.
+- Stays pagination: «بعدی» right with a green → arrow outside the word, «قبلی» left with a coral ← arrow, «صفحه X از Y» mid-row on one line, «N اقامتگاه» below; Persian digits.
+- Verified live after Pages propagation: register via the modal -> booking created -> panel lists it -> cancel works -> guard rails return the expected Persian errors.
 
 ## Verified working
-- Registration, login, token session (localStorage `makanak_token`), logout
-- Booking create from stay.html and listing in the user panel
-- Anonymous "درخواست رزرو" → prompts login
 - 84 stays, 453 same-origin gallery photos (assets/gallery), 40 popular stays over 4 pages
-- Card click navigates straight to stay.html?id=... (no intermediate modal on index)
-- City dataset 1628 cities with Persian district labels ("تهران، منطقه ۱")
-
-## Latest UI state (deployed, commit 15116e4)
-- Stays pagination: «بعدی» on the right with a green → arrow outside the word, «قبلی» on the left with a coral ← arrow (both arrows point outward; no emoji) (positions swapped), page label «صفحه X از Y» mid-row on one line, «N اقامتگاه» centered on the line below; Persian digits.
-- Older UI notes (commit 95cb786)
-- Desktop booking grid keeps the destination field wider so «شهر یا نام اقامتگاه» is not clipped.
-- Desktop guest label «تعداد نفرات» is forced onto one line; mobile booking remains stacked with no horizontal overflow.
-- City dropdown: maximum 5 cities per desktop row, 3 per mobile row; rows are centered and evenly aligned inside the panel; mobile chips keep a 44px touch height.
-- Booking popups open directly below their triggering field.
-- Calendar rules are deployed: past days are faded and disabled; check-in is today or later; checkout cannot be earlier than check-in.
-- Live URL verified after Pages propagation: https://moodswingmisery4-coder.github.io/makanak/?v=95cb786-final
-
-## Backend / panel check — 2026-11-15
-- API verified end-to-end against the live worker: register 201, /auth/me, POST /bookings 201, GET /bookings, wrong password 401, no-token 401, logout 200 (session invalidated).
-- UTF-8 safe: Persian stay names/cities round-trip correctly (mojibake seen earlier came from Windows console curl, not the server).
-- User panel (modal on index/stay) verified live: login form works, panel lists bookings with Persian text and status «در انتظار بررسی», logout works.
-- D1 after cleanup of this session's throwaway accounts: users 6, sessions 5, bookings 2 — every row is an old test account (e2e/dbg/verify/flow/tok/final).
-- Known gaps: server does not validate check_out > check_in or that stay_id exists; no cancel button in the panel UI though DELETE /api/bookings/:id exists; no email verification or password reset.
+- Card click navigates straight to stay.html?id=...
+- City dataset 1628 cities with Persian district labels
+- UTF-8 round-trips correctly (mojibake seen earlier came from the Windows console, not the server)
 
 ## Open / unconfirmed
-- Visual confirmation of the latest calendar rules on Soheil's own device is still pending.
-- Test accounts created during E2E still exist in D1 (emails starting e2e/dbg/verify/flow/tok/final).
-  Cleanup needs his explicit consent (the delete command was blocked once).
-- Deployment quirk: `wrangler deploy --domains ...` disables the workers.dev route. Use plain
-  `npx wrangler deploy` (config has workers_dev = true) to keep both endpoints alive.
-- kdns.fr custom domain requires Cloudflare SSL to be fully issued; it works from Ukraine/EU nodes
-  but not from his carrier.
+- Email verification + password reset are coded but blocked on RESEND_API_KEY (needs Soheil's key / verified sender domain).
+- Six old test accounts remain in D1 (e2e/dbg/verify/flow/tok/final); cleanup needs explicit consent.
+- Real account moodswingmisery2@gmail.com must be preserved.
+- Custom domain makanak.kdns.fr was removed from wrangler.toml (it sat wrongly under [vars]); re-attach with `npx wrangler deploy --domains makanak.kdns.fr` only when losing the workers.dev route is acceptable — plain `npx wrangler deploy` keeps workers.dev.
+- REQUIRE_VERIFIED=true would block booking for unverified users; leave unset until email works.
 
 ## Commands
-- Deploy backend: `cd D:/hermes/makanak-worker && npx wrangler deploy`
-- Apply schema: `npx wrangler d1 execute makanak-db --remote --file=schema.sql`
-- Push frontend: `cd D:/hermes/makanak && git add -A && git commit -m "..." && git push origin main`
-  (if TLS handshake fails: `git -c http.version=HTTP/1.1 push origin main`)
-- Bump `assets/auth.js?v=N` and `assets/catalog.js?v=N` whenever those files change.
+- Deploy backend: cd D:/hermes/makanak-worker && npx wrangler deploy
+- Apply schema: npx wrangler d1 execute makanak-db --remote --file=schema.sql
+- Re-seed stays: npx wrangler d1 execute makanak-db --remote --file=seed-stays.sql
+- Push frontend: cd D:/hermes/makanak && git add -A && git commit -m "..." && GCM_GUI_PROMPT=0 git -c credential.helper=manager push -q origin main
+- Bump ?v=N for assets/auth.js, assets/booking.js, assets/catalog.js, assets/theme.css on every change (Pages caches aggressively).
