@@ -145,14 +145,20 @@
           cursor.setDate(cursor.getDate() + 1);
         }
         popup.innerHTML = `
-          <div class="bk-cal-head">
-            <button type="button" data-step="1" class="bk-nav" aria-label="ماه بعد">›</button>
-            <b>${MONTHS[jp.m - 1]} ${toFa(jp.y)}</b>
-            <button type="button" data-step="-1" class="bk-nav" aria-label="ماه قبل">‹</button>
+          <div class="bk-pop-head">
+            <span class="bk-pop-logo">⌂</span>
+            <b class="bk-pop-title">${kind === 'in' ? 'تاریخ ورود' : 'تاریخ خروج'}</b>
+            <button type="button" class="bk-pop-close" data-close aria-label="بستن">✕</button>
           </div>
-          <div class="bk-week">${WEEKDAYS.map(w => `<span>${w}</span>`).join('')}</div>
-          <div class="bk-grid">${cells}</div>
-          <div class="bk-cal-foot"><span>${kind === 'in' ? 'ورود از امروز به بعد' : 'خروج بعد از ورود'}</span><button type="button" data-close>بستن</button></div>`;
+          <div class="bk-pop-body">
+            <div class="bk-cal-head">
+              <button type="button" data-step="1" class="bk-nav" aria-label="ماه بعد">›</button>
+              <b>${MONTHS[jp.m - 1]} ${toFa(jp.y)}</b>
+              <button type="button" data-step="-1" class="bk-nav" aria-label="ماه قبل">‹</button>
+            </div>
+            <div class="bk-week">${WEEKDAYS.map(w => `<span>${w}</span>`).join('')}</div>
+            <div class="bk-grid">${cells}</div>
+          </div>`;
         popup.querySelectorAll('[data-step]').forEach(b => (b.onclick = () => {
           view = shiftMonth(view, Number(b.dataset.step));
           draw();
@@ -178,15 +184,19 @@
 
     function openGuests() {
       popup.innerHTML = `
-        <div class="bk-guests">
-          <div><b>تعداد مهمان</b><p>ظرفیت این اقامتگاه ${toFa(maxGuests)} نفر است.</p></div>
-          <div class="bk-stepper">
-            <button type="button" data-delta="1" aria-label="افزودن مهمان">+</button>
-            <b data-count>${toFa(state.guests)}</b>
-            <button type="button" data-delta="-1" aria-label="کاهش مهمان">−</button>
-          </div>
+        <div class="bk-pop-head">
+          <span class="bk-pop-logo">⌂</span>
+          <b class="bk-pop-title">تعداد مهمان</b>
+          <button type="button" class="bk-pop-close" data-close aria-label="بستن">✕</button>
         </div>
-        <div class="bk-cal-foot"><span>بیشتر از ظرفیت قابل انتخاب نیست</span><button type="button" data-close>تایید</button></div>`;
+        <div class="bk-pop-body">
+          <div class="bk-stepper">
+            <button type="button" class="bk-plus" data-delta="1" aria-label="افزودن مهمان">+</button>
+            <b data-count>${toFa(state.guests)}</b>
+            <button type="button" class="bk-minus" data-delta="-1" aria-label="کاهش مهمان">−</button>
+          </div>
+          <p class="bk-guest-hint">ظرفیت این اقامتگاه ${toFa(maxGuests)} نفر است؛ بیشتر از ظرفیت قابل انتخاب نیست.</p>
+        </div>`;
       const count = popup.querySelector('[data-count]');
       popup.querySelectorAll('[data-delta]').forEach(b => (b.onclick = e => {
         e.stopPropagation();
@@ -207,7 +217,16 @@
       state.open = kind;
       popup.hidden = false;
       const anchor = widget.querySelector(`[data-open="${kind}"]`);
-      if (anchor) popup.style.top = anchor.offsetTop + anchor.offsetHeight + 8 + 'px';
+      if (anchor) popup.style.top = anchor.offsetTop + anchor.offsetHeight + 6 + 'px';
+      if (kind === 'guests') {
+        popup.style.left = 'auto';
+        popup.style.right = '0';
+        popup.style.width = '272px';
+      } else {
+        popup.style.width = '272px';
+        popup.style.right = kind === 'in' ? '0' : 'auto';
+        popup.style.left = kind === 'out' ? '0' : 'auto';
+      }
       widget.querySelectorAll('.bk-field').forEach(b => b.classList.toggle('is-active', b.dataset.open === kind));
       if (kind === 'guests') openGuests();
       else openCalendar(kind);
