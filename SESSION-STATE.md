@@ -24,7 +24,7 @@ Last updated: 2026-11-15 (local machine time zone)
 ## Frontend — 2026-11-15 (deployed)
 - assets/booking.js (v=5): pro booking widget on stay.html — Jalali calendar popups for check-in/check-out (past days disabled, checkout opens on the check-in month, max 60 nights), guest stepper capped at the stay capacity, live «X شب × قیمت = مبلغ کل» summary, inline Persian errors, success card with nights/total and a link to the panel.
 - assets/auth.js (v=7): login/register/reset screens, requireLogin() returns a promise so the booking continues right after login, account panel with booking rows + status chips + cancel button, profile form, change-password form, email-verification block, logout.
-- assets/theme.css (v=3): .bk-* widget styles and .account-*/.chip panel styles (light + dark), plus #modal > .bg-white max-height 88vh scroll.
+- assets/theme.css (v=4): .bk-* widget styles (compact date fields: 6px/12px padding, 12.5px value), .fav-btn heart toggle (SVG outline -> filled when favourited, state in localStorage makanak_favorites), .account-*/.chip panel styles (light + dark), plus #modal > .bg-white max-height 88vh scroll.
 - Stays pagination: «بعدی» right with a green → arrow outside the word, «قبلی» left with a coral ← arrow, «صفحه X از Y» mid-row on one line, «N اقامتگاه» below; Persian digits.
 - Verified live after Pages propagation: register via the modal -> booking created -> panel lists it -> cancel works -> guard rails return the expected Persian errors.
 
@@ -34,7 +34,7 @@ Last updated: 2026-11-15 (local machine time zone)
    Then `/api/health` should report `email:true`; verify with a real registration and check the 6-digit code mail.
    Only after that consider `REQUIRE_VERIFIED=true` (blocks booking for unverified accounts).
 2. Ask Soheil for consent to delete the six old test accounts (e2e/dbg/verify/flow/tok/final) — never touch moodswingmisery2@gmail.com.
-3. Booking widget live state: stay.html loads booking.js?v=5, auth.js?v=7, theme.css?v=3 — bump these numbers on every asset edit or Pages serves the stale file.
+3. Booking widget live state: stay.html loads booking.js?v=5, auth.js?v=7, theme.css?v=4 — bump these numbers on every asset edit or Pages serves the stale file.
 
 ## Verified working
 - 84 stays, 453 same-origin gallery photos (assets/gallery), 40 popular stays over 4 pages
