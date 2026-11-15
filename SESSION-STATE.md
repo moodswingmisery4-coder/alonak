@@ -34,7 +34,8 @@ Last updated: 2026-11-15 (local machine time zone)
    Then `/api/health` should report `email:true`; verify with a real registration and check the 6-digit code mail.
    Only after that consider `REQUIRE_VERIFIED=true` (blocks booking for unverified accounts).
 2. Ask Soheil for consent to delete the six old test accounts (e2e/dbg/verify/flow/tok/final) — never touch moodswingmisery2@gmail.com.
-3. Booking widget live state: stay.html loads booking.js?v=5, auth.js?v=7, theme.css?v=4 — bump these numbers on every asset edit or Pages serves the stale file.
+3. Booking widget live state: stay.html loads booking.js?v=6, auth.js?v=7, theme.css?v=5 — bump these numbers on every asset edit or Pages serves the stale file.
+4. 2026-11-15: booking popups are now compact 272px cards anchored under their own field, with a navbar-style dark header (logo + title + X close); the bottom «بستن/تایید» footers were removed; guest stepper + is green / − is red.
 
 ## Verified working
 - 84 stays, 453 same-origin gallery photos (assets/gallery), 40 popular stays over 4 pages
