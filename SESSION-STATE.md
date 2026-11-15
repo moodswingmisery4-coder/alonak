@@ -29,6 +29,13 @@ Last updated: 2026-11-14 (local machine time zone)
 - Calendar rules are deployed: past days are faded and disabled; check-in is today or later; checkout cannot be earlier than check-in.
 - Live URL verified after Pages propagation: https://moodswingmisery4-coder.github.io/makanak/?v=95cb786-final
 
+## Backend / panel check — 2026-11-15
+- API verified end-to-end against the live worker: register 201, /auth/me, POST /bookings 201, GET /bookings, wrong password 401, no-token 401, logout 200 (session invalidated).
+- UTF-8 safe: Persian stay names/cities round-trip correctly (mojibake seen earlier came from Windows console curl, not the server).
+- User panel (modal on index/stay) verified live: login form works, panel lists bookings with Persian text and status «در انتظار بررسی», logout works.
+- D1 after cleanup of this session's throwaway accounts: users 6, sessions 5, bookings 2 — every row is an old test account (e2e/dbg/verify/flow/tok/final).
+- Known gaps: server does not validate check_out > check_in or that stay_id exists; no cancel button in the panel UI though DELETE /api/bookings/:id exists; no email verification or password reset.
+
 ## Open / unconfirmed
 - Visual confirmation of the latest calendar rules on Soheil's own device is still pending.
 - Test accounts created during E2E still exist in D1 (emails starting e2e/dbg/verify/flow/tok/final).
