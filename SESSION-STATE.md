@@ -19,7 +19,9 @@ Last updated: 2026-11-14 (local machine time zone)
 - Card click navigates straight to stay.html?id=... (no intermediate modal on index)
 - City dataset 1628 cities with Persian district labels ("تهران، منطقه ۱")
 
-## Latest UI state (deployed, commit 95cb786)
+## Latest UI state (deployed, commit 15116e4)
+- Stays pagination: «بعدی 🧭» on the right, «قبلی 🏡» on the left (positions swapped), page label «صفحه X از Y» mid-row on one line, «N اقامتگاه» centered on the line below; Persian digits.
+- Older UI notes (commit 95cb786)
 - Desktop booking grid keeps the destination field wider so «شهر یا نام اقامتگاه» is not clipped.
 - Desktop guest label «تعداد نفرات» is forced onto one line; mobile booking remains stacked with no horizontal overflow.
 - City dropdown: maximum 5 cities per desktop row, 3 per mobile row; rows are centered and evenly aligned inside the panel; mobile chips keep a 44px touch height.
