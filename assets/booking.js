@@ -120,7 +120,8 @@
     }
 
     function openCalendar(kind) {
-      let view = firstOfMonth(state[kind === 'in' ? 'checkIn' : 'checkOut'] ? parseIso(state[kind === 'in' ? 'checkIn' : 'checkOut']) : new Date());
+      const anchorDate = state[kind === 'in' ? 'checkIn' : 'checkOut'] || (kind === 'out' ? state.checkIn : '');
+      let view = firstOfMonth(anchorDate ? parseIso(anchorDate) : new Date());
       const minForKind = () => {
         const today = todayIso();
         if (kind === 'in') return today;
