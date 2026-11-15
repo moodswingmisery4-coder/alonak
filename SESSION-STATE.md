@@ -1,6 +1,14 @@
 # Makanak — session state
 
-Last updated: 2026-11-15 (local machine time zone)
+Last updated: 2026-11-15 — booking-widget polish session (saved before leaving; resume from «Resume here»).
+
+## Resume here (next session)
+- ✅ Done this session (deployed + verified live): calendar popups are compact 272px cards that open directly under their own field (check-in right edge, check-out left edge, guests right edge), each with a navbar-style dark header (coral logo, title «تاریخ ورود / تاریخ خروج / تعداد مهمان», ✕ close) — the old bottom «بستن» / «تایید» footers are gone.
+- ✅ Guest stepper: + is green (#15803d on #dcfce7), − is red (#dc2626 on #fee2e2), with dark-theme variants and hover fills.
+- Live versions now: `booking.js?v=6`, `theme.css?v=5`, `auth.js?v=7`. Pushed on `main` (commits 073169b + docs).
+- Local state: clean working tree, no uncommitted changes, nothing running except an optional local `python -m http.server 8765` in D:/hermes/makanak used for testing.
+- Next up: continue the UI pass (whatever Soheil picks next — likely more booking-card / mobile polish) and the two open items below (RESEND_API_KEY, test-account cleanup consent).
+
 
 ## Live surfaces
 - Frontend (GitHub Pages): https://moodswingmisery4-coder.github.io/makanak/
@@ -22,9 +30,9 @@ Last updated: 2026-11-15 (local machine time zone)
 - /api/auth/me returns 200 {user:null} for anonymous (the front end depends on it).
 
 ## Frontend — 2026-11-15 (deployed)
-- assets/booking.js (v=5): pro booking widget on stay.html — Jalali calendar popups for check-in/check-out (past days disabled, checkout opens on the check-in month, max 60 nights), guest stepper capped at the stay capacity, live «X شب × قیمت = مبلغ کل» summary, inline Persian errors, success card with nights/total and a link to the panel.
+- assets/booking.js (v=6): pro booking widget on stay.html — Jalali calendar popups for check-in/check-out (past days disabled, checkout opens on the check-in month, max 60 nights), guest stepper capped at the stay capacity, live «X شب × قیمت = مبلغ کل» summary, inline Persian errors, success card with nights/total and a link to the panel.
 - assets/auth.js (v=7): login/register/reset screens, requireLogin() returns a promise so the booking continues right after login, account panel with booking rows + status chips + cancel button, profile form, change-password form, email-verification block, logout.
-- assets/theme.css (v=4): .bk-* widget styles (compact date fields: 6px/12px padding, 12.5px value), .fav-btn heart toggle (SVG outline -> filled when favourited, state in localStorage makanak_favorites), .account-*/.chip panel styles (light + dark), plus #modal > .bg-white max-height 88vh scroll.
+- assets/theme.css (v=5): .bk-* widget styles (compact date fields: 6px/12px padding, 12.5px value; .bk-pop-head navbar-style popup header, .bk-pop-close ✕, green .bk-plus / red .bk-minus), .fav-btn heart toggle (SVG outline -> filled when favourited, state in localStorage makanak_favorites), .account-*/.chip panel styles (light + dark), plus #modal > .bg-white max-height 88vh scroll.
 - Stays pagination: «بعدی» right with a green → arrow outside the word, «قبلی» left with a coral ← arrow, «صفحه X از Y» mid-row on one line, «N اقامتگاه» below; Persian digits.
 - Verified live after Pages propagation: register via the modal -> booking created -> panel lists it -> cancel works -> guard rails return the expected Persian errors.
 
