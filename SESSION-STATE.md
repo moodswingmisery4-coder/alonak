@@ -28,6 +28,14 @@ Last updated: 2026-11-15 (local machine time zone)
 - Stays pagination: «بعدی» right with a green → arrow outside the word, «قبلی» left with a coral ← arrow, «صفحه X از Y» mid-row on one line, «N اقامتگاه» below; Persian digits.
 - Verified live after Pages propagation: register via the modal -> booking created -> panel lists it -> cancel works -> guard rails return the expected Persian errors.
 
+## Next session — start here
+1. Email verification + password reset: needs `RESEND_API_KEY` (and optionally `MAIL_FROM`) as a Cloudflare secret:
+   `cd D:/hermes/makanak-worker && npx wrangler secret put RESEND_API_KEY` (log in to resend.com, free tier, verify the sender domain).
+   Then `/api/health` should report `email:true`; verify with a real registration and check the 6-digit code mail.
+   Only after that consider `REQUIRE_VERIFIED=true` (blocks booking for unverified accounts).
+2. Ask Soheil for consent to delete the six old test accounts (e2e/dbg/verify/flow/tok/final) — never touch moodswingmisery2@gmail.com.
+3. Booking widget live state: stay.html loads booking.js?v=5, auth.js?v=7, theme.css?v=3 — bump these numbers on every asset edit or Pages serves the stale file.
+
 ## Verified working
 - 84 stays, 453 same-origin gallery photos (assets/gallery), 40 popular stays over 4 pages
 - Card click navigates straight to stay.html?id=...
