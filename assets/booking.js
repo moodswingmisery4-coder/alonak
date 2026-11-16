@@ -89,10 +89,14 @@
             <span class="bk-label">تاریخ خروج</span>
             <b class="bk-value" data-value="out">انتخاب تاریخ</b>
           </button>
-          <button type="button" class="bk-field" data-open="guests">
+          <div class="bk-field bk-field-guests" title="ظرفیت پایه ${toFa(baseCapacity)} نفر · هر نفر اضافه ${money(roundToman(num(config.price) * EXTRA_PERSON_RATIO))} تومان در هر شب">
             <span class="bk-label">تعداد مهمان</span>
             <b class="bk-value" data-value="guests">${toFa(state.guests)} مهمان</b>
-          </button>
+            <span class="bk-inline-stepper">
+              <button type="button" class="bk-mini bk-minus" data-guest-delta="-1" aria-label="کاهش مهمان">−</button>
+              <button type="button" class="bk-mini bk-plus" data-guest-delta="1" aria-label="افزودن مهمان">+</button>
+            </span>
+          </div>
         </div>
         <div class="bk-summary" data-summary></div>
         <p class="bk-error" data-error hidden></p>
@@ -134,7 +138,11 @@
       widget.querySelector('[data-value="in"]').textContent = state.checkIn ? formatDate(state.checkIn) : 'انتخاب تاریخ';
       widget.querySelector('[data-value="out"]').textContent = state.checkOut ? formatDate(state.checkOut) : 'انتخاب تاریخ';
       widget.querySelector('[data-value="guests"]').textContent = toFa(state.guests) + ' مهمان';
-      widget.querySelectorAll('.bk-field').forEach(b => b.classList.toggle('has-value', !!state[b.dataset.open === 'guests' ? 'guests' : b.dataset.open]));
+      widget.querySelectorAll('.bk-field[data-open]').forEach(b => b.classList.toggle('has-value', !!state[b.dataset.open === 'in' ? 'checkIn' : 'checkOut']));
+      const minus = widget.querySelector('[data-guest-delta="-1"]');
+      const plus = widget.querySelector('[data-guest-delta="1"]');
+      if (minus) minus.disabled = state.guests <= 1;
+      if (plus) plus.disabled = state.guests >= maxGuests;
       renderSummary();
     }
 
@@ -174,9 +182,9 @@
           </div>
           <div class="bk-pop-body">
             <div class="bk-cal-head">
-              <button type="button" data-step="-1" class="bk-nav" aria-label="ماه قبل">›</button>
+              <button type="button" data-step="-1" class="bk-nav" aria-label="ماه قبل">‹</button>
               <b>${MONTHS[jp.m - 1]} ${toFa(jp.y)}</b>
-              <button type="button" data-step="1" class="bk-nav" aria-label="ماه بعد">‹</button>
+              <button type="button" data-step="1" class="bk-nav" aria-label="ماه بعد">›</button>
             </div>
             <div class="bk-week">${WEEKDAYS.map(w => `<span>${w}</span>`).join('')}</div>
             <div class="bk-grid">${cells}</div>
@@ -210,34 +218,6 @@
       draw();
     }
 
-    function openGuests() {
-      popup.innerHTML = `
-        <div class="bk-pop-head">
-          <span class="bk-pop-logo">⌂</span>
-          <b class="bk-pop-title">تعداد مهمان</b>
-          <button type="button" class="bk-pop-close" data-close aria-label="بستن">✕</button>
-        </div>
-        <div class="bk-pop-body">
-          <div class="bk-stepper">
-            <button type="button" class="bk-plus" data-delta="1" aria-label="افزودن مهمان">+</button>
-            <b data-count>${toFa(state.guests)}</b>
-            <button type="button" class="bk-minus" data-delta="-1" aria-label="کاهش مهمان">−</button>
-          </div>
-          <p class="bk-guest-hint">ظرفیت پایه ${toFa(baseCapacity)} نفر است؛ هر نفر اضافه ${money(roundToman(num(config.price) * EXTRA_PERSON_RATIO))} تومان در هر شب.</p>
-          <p class="bk-guest-hint">سقف ظرفیت این اقامتگاه ${toFa(maxGuests)} نفر است.</p>
-        </div>`;
-      const count = popup.querySelector('[data-count]');
-      popup.querySelectorAll('[data-delta]').forEach(b => (b.onclick = e => {
-        e.stopPropagation();
-        const next = state.guests + Number(b.dataset.delta);
-        if (next < 1 || next > maxGuests) return;
-        state.guests = next;
-        count.textContent = toFa(next);
-        renderValues();
-      }));
-      popup.querySelector('[data-close]').onclick = closePopup;
-    }
-
     function open(kind) {
       if (state.open === kind) {
         closePopup();
@@ -247,21 +227,21 @@
       popup.hidden = false;
       const anchor = widget.querySelector(`[data-open="${kind}"]`);
       if (anchor) popup.style.top = anchor.offsetTop + anchor.offsetHeight + 6 + 'px';
-      if (kind === 'guests') {
-        popup.style.left = 'auto';
-        popup.style.right = '0';
-        popup.style.width = '272px';
-      } else {
-        popup.style.width = '306px';
-        popup.style.right = kind === 'in' ? '0' : 'auto';
-        popup.style.left = kind === 'out' ? '0' : 'auto';
-      }
+      popup.style.width = '306px';
+      popup.style.right = kind === 'in' ? '0' : 'auto';
+      popup.style.left = kind === 'out' ? '0' : 'auto';
       widget.querySelectorAll('.bk-field').forEach(b => b.classList.toggle('is-active', b.dataset.open === kind));
-      if (kind === 'guests') openGuests();
-      else openCalendar(kind);
+      openCalendar(kind);
     }
 
     widget.querySelectorAll('[data-open]').forEach(b => (b.onclick = e => { e.stopPropagation(); open(b.dataset.open); }));
+    widget.querySelectorAll('[data-guest-delta]').forEach(b => (b.onclick = e => {
+      e.stopPropagation();
+      const next = state.guests + Number(b.dataset.guestDelta);
+      if (next < 1 || next > maxGuests) return;
+      state.guests = next;
+      renderValues();
+    }));
     document.addEventListener('click', e => {
       if (popup.hidden) return;
       const path = typeof e.composedPath === 'function' ? e.composedPath() : [];
