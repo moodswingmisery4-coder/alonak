@@ -264,7 +264,7 @@
            <div class="score-big"><b>${toFa(score.toFixed(1))}</b><span>از ۵</span></div>
            <div class="score-meta">
              ${starsMarkup(score)}
-             <p>امتیاز کلی اقامتگاه · از ${toFa(count)} نظر ثبت‌شده</p>
+             <p>امتیاز کلی اقامتگاه در جاباما · از ${toFa(count)} نظر</p>
            </div>
          </div>`
       : `<div class="score-card"><div class="score-big"><b>—</b><span>بدون امتیاز</span></div><div class="score-meta"><p>هنوز امتیازی برای این اقامتگاه ثبت نشده است.</p></div></div>`;
@@ -272,6 +272,7 @@
       <section class="stay-block" id="secReviews">
         <h2 class="stay-title">امتیاز و نظرات</h2>
         ${body}
+        <h3 class="review-sub">نظرات مهمانان مکانک</h3>
         <div class="review-list" data-review-list><p class="review-empty">در حال دریافت نظرات…</p></div>
         <form class="review-form" data-review-form>
           <b>نظر شما دربارهٔ این اقامتگاه</b>
