@@ -226,7 +226,7 @@
         </div>
         <details class="rule-acc">
           <summary>قوانین لغو رزرو</summary>
-          <p>تا ۷۲ ساعت قبل از ورود، لغو رزرو بدون جریمه انجام می‌شود. بین ۷۲ تا ۲۴ ساعت قبل، ۳۰٪ مبلغ و کمتر از ۲۴ ساعت، ۵۰٪ مبلغ به‌عنوان جریمه کسر می‌شود. رزرو تأییدشده را فقط پشتیبانی مکانک می‌تواند لغو کند.</p>
+          <p>تا ۷۲ ساعت قبل از ورود، لغو رزرو بدون جریمه انجام می‌شود. بین ۷۲ تا ۲۴ ساعت قبل، ۳۰٪ مبلغ و کمتر از ۲۴ ساعت، ۵۰٪ مبلغ به‌عنوان جریمه کسر می‌شود. رزرو تأییدشده را فقط پشتیبانی مکان آباد می‌تواند لغو کند.</p>
         </details>
       </section>`;
   }
@@ -285,7 +285,7 @@
       <section class="stay-block" id="secReviews">
         <h2 class="stay-title">امتیاز و نظرات</h2>
         ${body}
-        <h3 class="review-sub">نظرات مهمانان مکانک</h3>
+        <h3 class="review-sub">نظرات مهمانان مکان آباد</h3>
         <div class="review-list" data-review-list><p class="review-empty">در حال دریافت نظرات…</p></div>
         <form class="review-form" data-review-form>
           <b>نظر شما دربارهٔ این اقامتگاه</b>
@@ -404,13 +404,13 @@
     const renderList = payload => {
       const items = (payload && payload.reviews) || [];
       if (!items.length) {
-        list.innerHTML = `<p class="review-empty">هنوز نظری از مهمانان مکانک ثبت نشده است. اولین نظر را شما بنویسید.</p>`;
+        list.innerHTML = `<p class="review-empty">هنوز نظری از مهمانان مکان آباد ثبت نشده است. اولین نظر را شما بنویسید.</p>`;
         return;
       }
       list.innerHTML = items.map(r => `
         <article class="review-item">
           <div class="review-head">
-            <b>${esc(r.author || 'مهمان مکانک')}</b>
+            <b>${esc(r.author || 'مهمان مکان آباد')}</b>
             <span class="review-score">${starsMarkup(Number(r.rating))}<em>${toFa(Number(r.rating).toFixed(1))}</em></span>
           </div>
           ${r.verified_stay ? '<span class="chip chip-ok">اقامت تاییدشده</span>' : ''}

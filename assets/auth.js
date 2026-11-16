@@ -48,7 +48,7 @@
     modal.querySelector('.bg-white').innerHTML = `
       <button id="closeModal" class="absolute left-5 top-5 text-slate-400 text-2xl" type="button">×</button>
       <div class="text-3xl mb-3">✦</div>
-      <h2 class="text-2xl font-black mb-2">${mode === 'login' ? 'ورود به حساب' : 'ثبت‌نام در مکانک'}</h2>
+      <h2 class="text-2xl font-black mb-2">${mode === 'login' ? 'ورود به حساب' : 'ثبت‌نام در مکان آباد'}</h2>
       <p class="text-slate-500 text-sm leading-7 mb-5">${mode === 'login' ? 'برای رزرو، وارد حساب کاربری شوید.' : 'حساب خود را بسازید و رزروهایتان را مدیریت کنید.'}</p>
       <form id="authForm" class="space-y-3">
         ${mode === 'register' ? '<input name="name" required minlength="2" class="w-full bg-slate-50 border rounded-xl p-4" placeholder="نام و نام خانوادگی">' : ''}
