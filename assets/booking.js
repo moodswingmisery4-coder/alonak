@@ -152,7 +152,6 @@
         let cells = '';
         const start = (first.getDay() + 1) % 7;
         for (let i = 0; i < start; i++) cells += '<span class="bk-empty"></span>';
-        const daysInMonth = new Date(jp.y, jp.m, 0, 12).getDate();
         const cursor = new Date(first.getTime());
         for (let d = 1; d <= 31; d++) {
           const g = jalaliParts(cursor);
@@ -161,8 +160,10 @@
           const blocked = value < minForKind() || (kind === 'in' && state.checkOut && nightsBetween(value, state.checkOut) > MAX_NIGHTS);
           const selected = state[kind === 'in' ? 'checkIn' : 'checkOut'] === value;
           const price = blocked ? 0 : nightPrice(num(config.price), value);
+          const weekend = !blocked && isWeekendNight(value);
           const priceTag = price ? `<span class="bk-day-price">${money(price / 1000)}</span>` : '';
-          cells += `<button type="button" class="bk-day${blocked ? ' is-disabled' : ''}${selected ? ' is-selected' : ''}${value === todayIso() ? ' is-today' : ''}" data-day="${value}"${blocked ? ' disabled' : ''}><span class="bk-day-num">${toFa(d)}</span>${priceTag}</button>`;
+          const title = price ? `${money(price)} تومان${weekend ? ' · آخر هفته' : ''}` : 'غیرقابل انتخاب';
+          cells += `<button type="button" class="bk-day${blocked ? ' is-disabled' : ''}${selected ? ' is-selected' : ''}${value === todayIso() ? ' is-today' : ''}${weekend ? ' is-weekend' : ''}" data-day="${value}" title="${title}"${blocked ? ' disabled' : ''}><span class="bk-day-num">${toFa(d)}</span>${priceTag}</button>`;
           cursor.setDate(cursor.getDate() + 1);
         }
         popup.innerHTML = `
@@ -173,19 +174,24 @@
           </div>
           <div class="bk-pop-body">
             <div class="bk-cal-head">
-              <button type="button" data-step="1" class="bk-nav" aria-label="ماه بعد">›</button>
+              <button type="button" data-step="-1" class="bk-nav" aria-label="ماه قبل">›</button>
               <b>${MONTHS[jp.m - 1]} ${toFa(jp.y)}</b>
-              <button type="button" data-step="-1" class="bk-nav" aria-label="ماه قبل">‹</button>
+              <button type="button" data-step="1" class="bk-nav" aria-label="ماه بعد">‹</button>
             </div>
             <div class="bk-week">${WEEKDAYS.map(w => `<span>${w}</span>`).join('')}</div>
             <div class="bk-grid">${cells}</div>
-            <p class="bk-cal-note">مبالغ به هزار تومان است · پنجشنبه و جمعه ۲۰٪ بیشتر</p>
+            <p class="bk-cal-note">قیمت هر شب، به هزار تومان · پنجشنبه و جمعه ۲۰٪ بیشتر</p>
           </div>`;
-        popup.querySelectorAll('[data-step]').forEach(b => (b.onclick = () => {
+        popup.querySelectorAll('[data-step]').forEach(b => (b.onclick = e => {
+          e.preventDefault();
+          e.stopPropagation();
           view = shiftMonth(view, Number(b.dataset.step));
           draw();
         }));
-        popup.querySelector('[data-close]').onclick = closePopup;
+        popup.querySelector('[data-close]').onclick = e => {
+          e.stopPropagation();
+          closePopup();
+        };
         popup.querySelectorAll('.bk-day').forEach(b => (b.onclick = e => {
           e.stopPropagation();
           const value = b.dataset.day;
@@ -246,7 +252,7 @@
         popup.style.right = '0';
         popup.style.width = '272px';
       } else {
-        popup.style.width = '292px';
+        popup.style.width = '306px';
         popup.style.right = kind === 'in' ? '0' : 'auto';
         popup.style.left = kind === 'out' ? '0' : 'auto';
       }
@@ -257,7 +263,10 @@
 
     widget.querySelectorAll('[data-open]').forEach(b => (b.onclick = e => { e.stopPropagation(); open(b.dataset.open); }));
     document.addEventListener('click', e => {
-      if (!widget.contains(e.target)) closePopup();
+      if (popup.hidden) return;
+      const path = typeof e.composedPath === 'function' ? e.composedPath() : [];
+      if (path.includes(widget) || widget.contains(e.target)) return;
+      closePopup();
     });
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') closePopup();
