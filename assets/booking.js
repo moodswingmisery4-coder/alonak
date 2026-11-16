@@ -6,6 +6,22 @@
   const MONTHS = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
   const WEEKDAYS = ['ش', 'ی', 'د', 'س', 'چ', 'پ', 'ج'];
   const MAX_NIGHTS = 60;
+  // --- pricing rules: keep in sync with makanak-worker/src/index.js ---
+  const WEEKEND_MULT = 1.2;
+  const EXTRA_PERSON_RATIO = 0.15;
+  const ROUND_STEP = 10000;
+  const roundToman = v => Math.round(Number(v || 0) / ROUND_STEP) * ROUND_STEP;
+  const isWeekendNight = value => [4, 5].includes(new Date(value + 'T00:00:00Z').getUTCDay());
+  const nightPrice = (base, value) => roundToman(Number(base || 0) * (isWeekendNight(value) ? WEEKEND_MULT : 1));
+  function quotePrice(base, checkIn, checkOut, guests, baseCapacity) {
+    const nights = nightsBetween(checkIn, checkOut);
+    let nightsTotal = 0;
+    for (let i = 0; i < nights; i++) nightsTotal += nightPrice(base, addDays(checkIn, i));
+    const extraGuests = baseCapacity > 0 && guests > baseCapacity ? guests - baseCapacity : 0;
+    const extraPerNight = extraGuests ? roundToman(Number(base || 0) * EXTRA_PERSON_RATIO) : 0;
+    const extraTotal = extraPerNight * extraGuests * nights;
+    return { nights, nights_total: nightsTotal, extra_guests: extraGuests, extra_per_night: extraPerNight, extra_total: extraTotal, total: nightsTotal + extraTotal };
+  }
 
   const num = v => Number(fromFa(String(v == null ? '' : v)).replace(/[^\d.-]/g, '')) || 0;
   const iso = d => {
@@ -57,8 +73,9 @@
   }
 
   function mount(container, options) {
-    const config = Object.assign({ price: 0, capacity: 8, stayId: '', stayName: '', city: '', onBooked: null }, options || {});
+    const config = Object.assign({ price: 0, capacity: 8, baseCapacity: 0, stayId: '', stayName: '', city: '', onBooked: null }, options || {});
     const maxGuests = Math.min(30, Number(config.capacity) || 8);
+    const baseCapacity = Math.min(maxGuests, Number(config.baseCapacity) || maxGuests);
     const state = { checkIn: '', checkOut: '', guests: Math.min(2, maxGuests), open: '', error: '' };
 
     container.innerHTML = `
@@ -97,14 +114,16 @@
     }
     function renderSummary() {
       const nights = nightsBetween(state.checkIn, state.checkOut);
-      const price = num(config.price);
       if (!nights) {
         summary.innerHTML = `<span class="bk-hint">برای دیدن مبلغ کل، تاریخ ورود و خروج را انتخاب کنید.</span>`;
         return;
       }
-      summary.innerHTML = `
-        <div class="bk-row"><span>${toFa(nights)} شب × ${money(price)} تومان</span><b>${money(price * nights)} تومان</b></div>
-        <div class="bk-row bk-total"><span>مبلغ کل</span><b>${money(price * nights)} تومان</b></div>`;
+      const q = quotePrice(num(config.price), state.checkIn, state.checkOut, state.guests, baseCapacity);
+      let rows = `<div class="bk-row"><span>${toFa(q.nights)} شب اقامت</span><b>${money(q.nights_total)} تومان</b></div>`;
+      if (q.extra_guests) {
+        rows += `<div class="bk-row"><span>${toFa(q.extra_guests)} نفر اضافه × ${money(q.extra_per_night)} تومان</span><b>${money(q.extra_total)} تومان</b></div>`;
+      }
+      summary.innerHTML = rows + `<div class="bk-row bk-total"><span>مبلغ کل</span><b>${money(q.total)} تومان</b></div>`;
     }
     function showError(message) {
       state.error = message || '';
@@ -141,7 +160,9 @@
           const value = iso(cursor);
           const blocked = value < minForKind() || (kind === 'in' && state.checkOut && nightsBetween(value, state.checkOut) > MAX_NIGHTS);
           const selected = state[kind === 'in' ? 'checkIn' : 'checkOut'] === value;
-          cells += `<button type="button" class="bk-day${blocked ? ' is-disabled' : ''}${selected ? ' is-selected' : ''}${value === todayIso() ? ' is-today' : ''}" data-day="${value}"${blocked ? ' disabled' : ''}>${toFa(d)}</button>`;
+          const price = blocked ? 0 : nightPrice(num(config.price), value);
+          const priceTag = price ? `<span class="bk-day-price">${money(price / 1000)}</span>` : '';
+          cells += `<button type="button" class="bk-day${blocked ? ' is-disabled' : ''}${selected ? ' is-selected' : ''}${value === todayIso() ? ' is-today' : ''}" data-day="${value}"${blocked ? ' disabled' : ''}><span class="bk-day-num">${toFa(d)}</span>${priceTag}</button>`;
           cursor.setDate(cursor.getDate() + 1);
         }
         popup.innerHTML = `
@@ -158,6 +179,7 @@
             </div>
             <div class="bk-week">${WEEKDAYS.map(w => `<span>${w}</span>`).join('')}</div>
             <div class="bk-grid">${cells}</div>
+            <p class="bk-cal-note">مبالغ به هزار تومان است · پنجشنبه و جمعه ۲۰٪ بیشتر</p>
           </div>`;
         popup.querySelectorAll('[data-step]').forEach(b => (b.onclick = () => {
           view = shiftMonth(view, Number(b.dataset.step));
@@ -195,7 +217,8 @@
             <b data-count>${toFa(state.guests)}</b>
             <button type="button" class="bk-minus" data-delta="-1" aria-label="کاهش مهمان">−</button>
           </div>
-          <p class="bk-guest-hint">ظرفیت این اقامتگاه ${toFa(maxGuests)} نفر است؛ بیشتر از ظرفیت قابل انتخاب نیست.</p>
+          <p class="bk-guest-hint">ظرفیت پایه ${toFa(baseCapacity)} نفر است؛ هر نفر اضافه ${money(roundToman(num(config.price) * EXTRA_PERSON_RATIO))} تومان در هر شب.</p>
+          <p class="bk-guest-hint">سقف ظرفیت این اقامتگاه ${toFa(maxGuests)} نفر است.</p>
         </div>`;
       const count = popup.querySelector('[data-count]');
       popup.querySelectorAll('[data-delta]').forEach(b => (b.onclick = e => {
@@ -223,7 +246,7 @@
         popup.style.right = '0';
         popup.style.width = '272px';
       } else {
-        popup.style.width = '272px';
+        popup.style.width = '292px';
         popup.style.right = kind === 'in' ? '0' : 'auto';
         popup.style.left = kind === 'out' ? '0' : 'auto';
       }
@@ -279,7 +302,8 @@
               <li><span>ورود</span><b>${formatDate(state.checkIn)}</b></li>
               <li><span>خروج</span><b>${formatDate(state.checkOut)}</b></li>
               <li><span>مدت اقامت</span><b>${toFa(booking.nights || nightsBetween(state.checkIn, state.checkOut))} شب</b></li>
-              <li><span>مبلغ کل</span><b>${money(booking.total || num(config.price) * nightsBetween(state.checkIn, state.checkOut))} تومان</b></li>
+              ${booking.extra_guests ? `<li><span>نفر اضافه</span><b>${toFa(booking.extra_guests)} نفر</b></li>` : ''}
+              <li><span>مبلغ کل</span><b>${money(booking.total || quotePrice(num(config.price), state.checkIn, state.checkOut, state.guests, baseCapacity).total)} تومان</b></li>
             </ul>
             <p class="bk-success-note">وضعیت: در انتظار تایید میزبان. برای پیگیری به پنل کاربری بروید.</p>
             <button type="button" data-panel>مشاهده در پنل کاربری</button>
