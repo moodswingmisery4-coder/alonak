@@ -227,11 +227,26 @@
       popup.hidden = false;
       const anchor = widget.querySelector(`[data-open="${kind}"]`);
       if (anchor) popup.style.top = anchor.offsetTop + anchor.offsetHeight + 6 + 'px';
-      popup.style.width = '306px';
+      popup.style.width = '364px';
       popup.style.right = kind === 'in' ? '0' : 'auto';
       popup.style.left = kind === 'out' ? '0' : 'auto';
       widget.querySelectorAll('.bk-field').forEach(b => b.classList.toggle('is-active', b.dataset.open === kind));
       openCalendar(kind);
+      fitOnScreen();
+    }
+
+    function fitOnScreen() {
+      // keep the (tall) calendar fully inside the viewport without a smooth animation that can be interrupted
+      for (let pass = 0; pass < 2; pass++) {
+        const r = popup.getBoundingClientRect();
+        const viewport = window.innerHeight;
+        let delta = 0;
+        if (r.bottom > viewport - 10) delta = r.bottom - viewport + 16;
+        else if (r.top < 10) delta = r.top - 12;
+        if (!delta) return;
+        window.scrollBy(0, delta);
+        if (Math.abs(delta) < 1) return;
+      }
     }
 
     widget.querySelectorAll('[data-open]').forEach(b => (b.onclick = e => { e.stopPropagation(); open(b.dataset.open); }));
