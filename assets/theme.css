@@ -163,6 +163,8 @@ html[data-theme=dark] .booking-cancel:hover{background:#3f1414}
 .gal-nav-left{left:2px}
 .gal-nav-right{right:2px}
 #galBig{padding-inline:48px}
+#galGrid{grid-auto-rows:minmax(0,1fr);align-content:stretch}
+#galGrid>[data-gal]{min-height:0}
 @media(max-width:640px){.gal-nav-btn{width:38px;height:38px;font-size:22px}.gal-nav-left{left:0}.gal-nav-right{right:0}#galBig{padding-inline:40px}}
 .hide-scroll{scrollbar-width:none;-ms-overflow-style:none}
 .hide-scroll::-webkit-scrollbar{display:none}
