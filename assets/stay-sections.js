@@ -231,6 +231,19 @@
       </section>`;
   }
 
+  const escText = t => String(t == null ? '' : t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  function descBlock(stay) {
+    const text = String(stay.desc || '').trim();
+    if (!text) return '';
+    return `
+      <section class="stay-block" id="secDesc">
+        <h2 class="stay-title">دربارهٔ این اقامتگاه</h2>
+        <p class="desc-text is-clamped" data-desc>${escText(text)}</p>
+        <button type="button" class="desc-toggle" data-desc-toggle aria-expanded="false">توضیحات بیشتر<span class="desc-caret" aria-hidden="true">⌄</span></button>
+      </section>`;
+  }
+
   function rulesBlock(stay, d) {
     const rules = (d && d.rw) || [];
     const items = Object.keys(RULES)
@@ -340,9 +353,30 @@
       specsBlock(stay, d),
       amenitiesBlock(stay, d),
       hoursBlock(stay),
+      descBlock(stay),
       rulesBlock(stay, d),
       reviewsBlock(stay, d)
     ].join('');
+
+    // ---- description: jabama-style clamp + «توضیحات بیشتر» ----
+    const descEl = root.querySelector('[data-desc]');
+    const descBtn = root.querySelector('[data-desc-toggle]');
+    if (descEl && descBtn) {
+      requestAnimationFrame(() => {
+        const overflowing = descEl.scrollHeight - descEl.clientHeight > 2;
+        if (!overflowing) {
+          descEl.classList.remove('is-clamped');
+          descBtn.hidden = true;
+        }
+      });
+      descBtn.addEventListener('click', () => {
+        const clamped = descEl.classList.toggle('is-clamped');
+        descBtn.setAttribute('aria-expanded', String(!clamped));
+        descBtn.innerHTML = clamped
+          ? 'توضیحات بیشتر<span class="desc-caret" aria-hidden="true">⌄</span>'
+          : 'بستن توضیحات<span class="desc-caret" aria-hidden="true">⌃</span>';
+      });
+    }
 
     if (d && d.am && d.am.length) {
       document.body.insertAdjacentHTML('beforeend', amenityModal(d, stay));
