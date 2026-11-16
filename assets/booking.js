@@ -257,9 +257,15 @@
       e.stopPropagation();
       const target = document.querySelector('#secRules');
       if (!target) return;
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const header = document.querySelector('body > header');
+      const offset = (header ? header.getBoundingClientRect().height : 80) + 24;
+      const scrollToTarget = (smooth) => {
+        const top = Math.max(0, target.getBoundingClientRect().top + window.pageYOffset - offset);
+        window.scrollTo({ top, behavior: smooth ? 'smooth' : 'auto' });
+      };
+      scrollToTarget(true);
       setTimeout(() => {
-        if (Math.abs(target.getBoundingClientRect().top) > 60) target.scrollIntoView({ block: 'start' });
+        if (Math.abs(target.getBoundingClientRect().top - offset) > 8) scrollToTarget(false);
       }, 900);
     };
     widget.querySelectorAll('[data-guest-delta]').forEach(b => (b.onclick = e => {

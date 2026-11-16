@@ -229,3 +229,5 @@ html[data-theme=dark] .review-msg.is-ok{color:#4ade80}
 }
 
 @media(max-width:400px){.bk-day{min-height:42px;border-radius:10px;padding:4px 0 3px}.bk-day-num{font-size:13px}.bk-day-price{font-size:9.5px}.bk-nav{width:28px;height:28px;font-size:15px}.bk-cal-head{font-size:13.5px}}
+
+#secRules{scroll-margin-top:110px}
