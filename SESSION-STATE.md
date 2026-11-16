@@ -10,6 +10,14 @@ Last updated: 2026-11-15 — booking-widget polish session (saved before leaving
 - Next up: continue the UI pass (whatever Soheil picks next — likely more booking-card / mobile polish) and the two open items below (RESEND_API_KEY, test-account cleanup consent).
 
 
+## Stay detail page — 2026-11-16 (deployed)
+- `assets/stay-data.js` (v=1): generated from `jabama-parsed.json` — per stay id: area/building, bedrooms, bathrooms, Iranian/Western toilets, base+extra capacity, min nights, source rating + count, restricted rules, full amenity keys. Regenerate with `pdf-work/build_details.py` (matches by `sourceCode`).
+- `assets/stay-sections.js` (v=2): renders 5 blocks on stay.html — مشخصات کلی، امکانات مهم + bottom sheet «مشاهده همه امکانات»، ساعت ورود/خروج ۱۴:۰۰/۱۲:۰۰ + آکاردئون لغو، مقررات با ✓/✕ از `restricted_rules`، امتیاز (منبع جاباما) + نظرات واقعی کاربران مکانک.
+- `assets/booking.js` (v=7): calendar shows the nightly price under every available day (thousands of toman) + legend; summary = sum of nights + extra-guest line; success card lists extra guests.
+- Pricing model (duplicated in worker + booking.js, keep in sync): weekend = پنجشنبه/جمعه ×1.2, extra person = 15% of base per night, both rounded to 10,000 toman. Verified live: 2 nights Thu+Fri = 7,200,000; 2 nights + 1 extra guest = 6,900,000 in both client and server.
+- Worker: `capacity_base` column (seeded for all 84 stays from `seed-capacity-base.sql`), `quotePrice()` helper, booking POST returns nights_total/extra_guests/extra_per_night/extra_total; new `reviews` table + `GET /api/reviews?stay_id=` (public) and `POST /api/reviews` (auth, one per user per stay, 1–5, 700 chars, `verified_stay` flag when a confirmed booking exists).
+- Frontend versions on stay.html: booking.js v=7, auth.js v=7, theme.css v=7, stay-data.js v=1, stay-sections.js v=2.
+
 ## Live surfaces
 - Frontend (GitHub Pages): https://moodswingmisery4-coder.github.io/makanak/
 - Frontend repo: https://github.com/moodswingmisery4-coder/makanak (branch main)
