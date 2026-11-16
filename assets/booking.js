@@ -101,6 +101,8 @@
         <div class="bk-summary" data-summary></div>
         <p class="bk-error" data-error hidden></p>
         <button type="button" class="bk-submit" data-submit>درخواست رزرو</button>
+        <div class="bk-warn" role="note">
+          <span class="bk-warn-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/></svg></span><span class="bk-warn-text">قبل از رزرو <button type="button" class="bk-warn-link" data-rules>قوانین و مقررات</button> مطالعه شود</span></div>
         <p class="bk-note">پرداخت در محل انجام می‌شود؛ رزرو پس از تایید میزبان قطعی است.</p>
         <div class="bk-popup" data-popup hidden></div>
       </div>`;
@@ -250,6 +252,16 @@
     }
 
     widget.querySelectorAll('[data-open]').forEach(b => (b.onclick = e => { e.stopPropagation(); open(b.dataset.open); }));
+    const rulesBtn = widget.querySelector('[data-rules]');
+    if (rulesBtn) rulesBtn.onclick = e => {
+      e.stopPropagation();
+      const target = document.querySelector('#secRules');
+      if (!target) return;
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(() => {
+        if (Math.abs(target.getBoundingClientRect().top) > 60) target.scrollIntoView({ block: 'start' });
+      }, 900);
+    };
     widget.querySelectorAll('[data-guest-delta]').forEach(b => (b.onclick = e => {
       e.stopPropagation();
       const next = state.guests + Number(b.dataset.guestDelta);
