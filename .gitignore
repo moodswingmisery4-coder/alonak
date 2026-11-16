@@ -2,3 +2,7 @@ backups/
 jabama-parsed.json
 jabama-public-capture.json
 jabama-public-stream.txt
+tools/*.log
+
+# downloaded-but-unpushed gallery photos (Pages repo size limit)
+assets/gallery/
