@@ -1,14 +1,13 @@
 # Makanak — session state
 
-Last updated: 2026-11-15 — booking-widget polish session (saved before leaving; resume from «Resume here»).
+Last updated: 2026-11-16 — stay-detail page (jabama-style) session. All work below is deployed and verified live.
 
 ## Resume here (next session)
-- ✅ Done this session (deployed + verified live): calendar popups are compact 272px cards that open directly under their own field (check-in right edge, check-out left edge, guests right edge), each with a navbar-style dark header (coral logo, title «تاریخ ورود / تاریخ خروج / تعداد مهمان», ✕ close) — the old bottom «بستن» / «تایید» footers are gone.
-- ✅ Guest stepper: + is green (#15803d on #dcfce7), − is red (#dc2626 on #fee2e2), with dark-theme variants and hover fills.
-- Live versions now: `booking.js?v=6`, `theme.css?v=5`, `auth.js?v=7`. Pushed on `main` (commits 073169b + docs).
-- Local state: clean working tree, no uncommitted changes, nothing running except an optional local `python -m http.server 8765` in D:/hermes/makanak used for testing.
-- Next up: continue the UI pass (whatever Soheil picks next — likely more booking-card / mobile polish) and the two open items below (RESEND_API_KEY, test-account cleanup consent).
-
+- ✅ **Done this session:** stay.html now has jabama-style blocks — مشخصات کلی، امکانات مهم (+ bottom sheet «مشاهده همه امکانات»)، ساعت ورود/خروج ۱۴:۰۰/۱۲:۰۰ + آکاردئون لغو، مقررات با ✓/✕، امتیاز منبع + نظرات واقعی کاربران. Calendar now prints the nightly price under every available day. Worker has weekend + extra-guest pricing and a reviews API.
+- **Live versions:** stay.html → `booking.js?v=7`, `theme.css?v=7`, `auth.js?v=7`, `stay-data.js?v=1`, `stay-sections.js?v=2`; index.html → `theme.css?v=7`. Backend deployed (`npx wrangler deploy`), D1 migrated (`capacity_base` + `reviews`).
+- **Git:** frontend `main` is up to date (HEAD `8e0cabc`), working tree clean. `makanak-worker` is **not** a git repo — its state lives on disk + Cloudflare only; snapshot `src/index.js`, `schema.sql` and the SQL seeds before big edits.
+- **Local:** nothing running; start `python -m http.server 8765` in D:/hermes/makanak when testing locally.
+- **Next candidates:** (1) seed a few clearly-labelled sample reviews if Soheil wants the list to look full, (2) migrate the "rules/hours" copy out of the template into per-stay data if he ever needs different times, (3) the two long-open items below (RESEND_API_KEY, consent to delete the 6 old test accounts).
 
 ## Stay detail page — 2026-11-16 (deployed)
 - `assets/stay-data.js` (v=1): generated from `jabama-parsed.json` — per stay id: area/building, bedrooms, bathrooms, Iranian/Western toilets, base+extra capacity, min nights, source rating + count, restricted rules, full amenity keys. Regenerate with `pdf-work/build_details.py` (matches by `sourceCode`).
@@ -26,7 +25,7 @@ Last updated: 2026-11-15 — booking-widget polish session (saved before leaving
 - API base 1 (primary): https://makanak-worker.makanak-app.workers.dev/api
 - API base 2 (fallback): https://makanak.kdns.fr/api — not routed any more (see Open)
 - D1 database: makanak-db (6d0fd00a-a76b-401b-9baf-9f31c55f2b45)
-- Tables: users (verified), sessions, stays (84 seeded from catalog.js), bookings (nights), email_tokens, rate_limits
+- Tables: users (verified), sessions, stays (84 seeded from catalog.js, capacity_base seeded), bookings (nights), reviews, email_tokens, rate_limits
 
 ## Backend hardening — 2026-11-15 (deployed)
 - Passwords: PBKDF2-SHA256, 100k iterations, 16-byte salt (pbkdf2$iters$salt$hash); legacy salt.sha256 hashes verify and auto-rehash on next login.
