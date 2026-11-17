@@ -142,7 +142,7 @@
         avatar = document.createElement('span');
         avatar.className = 'nav-avatar';
         avatar.setAttribute('aria-hidden', 'true');
-        loginButton.insertBefore(avatar, loginButton.firstChild);
+        loginButton.appendChild(avatar);
       }
       avatar.textContent = initial;
       if (icon) icon.style.display = 'none';
