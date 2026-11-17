@@ -449,7 +449,21 @@
 
   function fillSide() {
     paintCounters();
-    $$('#acctNav button').forEach(b => b.onclick = () => show(b.dataset.view));
+    const toggle = $('#navToggle');
+    const menu = $('#acctMenu');
+    const isMobile = () => window.matchMedia('(max-width:1023px)').matches;
+    const setMenu = open => {
+      if (!toggle || !menu) return;
+      menu.dataset.open = String(open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'بستن منوی حساب کاربری' : 'باز کردن منوی حساب کاربری');
+    };
+    if (toggle && menu) {
+      menu.dataset.open = 'false';
+      toggle.onclick = () => setMenu(menu.dataset.open !== 'true');
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && menu.dataset.open === 'true') setMenu(false); });
+    }
+    $$('#acctNav button').forEach(b => b.onclick = () => { show(b.dataset.view); if (isMobile()) setMenu(false); });
     $('#acctLogout').onclick = logout;
   }
 
