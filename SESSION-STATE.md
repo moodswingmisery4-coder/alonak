@@ -85,3 +85,10 @@ Before touching any project file, copy the files you are about to change into `b
 - Re-seed stays: npx wrangler d1 execute makanak-db --remote --file=seed-stays.sql
 - Push frontend: cd D:/hermes/makanak && git add -A && git commit -m "..." && GCM_GUI_PROMPT=0 git -c credential.helper=manager push -q origin main
 - Bump ?v=N for assets/auth.js, assets/booking.js, assets/catalog.js, assets/theme.css on every change (Pages caches aggressively).
+
+## 2026-11-17 — user panel rebuild
+- Replaced the cramped modal account view with a real dashboard page: `account.html` + `assets/account.js` (sidebar nav, overview stats, next-trip hero, bookings with filters/details/cancel/review, favorites, profile, security, support).
+- Header account button now navigates to `account.html` (auth.js v12); the modal stays for login/register/password-reset only.
+- Worker: new `/api/support` GET/POST backed by `support_tickets` (migration `migrations/2026-11-17-support.sql`), `/auth/me` now returns `created_at`. Deployed with `npx wrangler deploy`.
+- Panel service map: bookings read/cancel, review submit (POST /api/reviews), profile PATCH, password change, email verify (blocked while RESEND_API_KEY is unset — health.email=false and the UI says so), support tickets, favorites (localStorage `makanak_favorites` stores catalog indices).
+- CORS allow-list only includes local ports 8765/8787 — serve local tests on 8765.

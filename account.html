@@ -1,0 +1,141 @@
+<!doctype html><html lang="fa" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>پنل کاربری | آلونک</title><script src="https://cdn.tailwindcss.com"></script><script>tailwind.config={theme:{extend:{fontFamily:{sans:['Vazirmatn','Tahoma']},colors:{ink:'#182338',coral:'#ff5c5c',sand:'#fff8f3'}}}}</script><link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><style>
+body{font-family:Vazirmatn,Tahoma,sans-serif;color:#182338}
+header nav{position:relative}
+header nav>a:first-child{order:0}
+.theme-control{order:2;margin-inline-start:auto}
+.nav-back{order:3;margin-inline-start:0;display:inline-flex;align-items:center;gap:7px;border:1px solid #e2e8f0;background:#fff;border-radius:12px;padding:9px 14px;font-size:.82rem;font-weight:700;color:#475569;line-height:1;white-space:nowrap;transition:border-color .15s,color .15s}
+.nav-back:hover{border-color:#ff5c5c;color:#ff5c5c}
+.nav-back-icon{order:2;display:inline-flex;align-items:center;justify-content:center;flex:0 0 22px;width:22px;height:22px;color:#ff5c5c}
+.nav-back-icon svg{width:100%;height:100%}
+.nav-account{position:absolute;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:8px;background:#ff5c5c;color:#fff;border:1px solid #ff5c5c;border-radius:14px;padding:11px 18px;font-weight:800;font-size:.85rem;line-height:1;box-shadow:0 6px 18px rgba(255,92,92,.28);cursor:pointer;white-space:nowrap;transition:background .15s,box-shadow .15s}
+.nav-account:hover{background:#ef4444;box-shadow:0 8px 22px rgba(255,92,92,.35)}
+.nav-account:focus-visible{outline:3px solid #ff5c5c;outline-offset:3px}
+.nav-account-icon{display:inline-flex;width:18px;height:18px}
+.nav-account-icon svg{width:100%;height:100%}
+.login-label{display:inline-block;max-width:26ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle}
+html[data-theme=dark] .nav-back{background:var(--surface);border-color:var(--line);color:var(--ink)}
+@media(min-width:768px){.nav-back{margin-inline-start:14px}}
+@media(min-width:1024px){.login-label{max-width:34ch}}
+@media(max-width:767px){header nav{gap:6px}.nav-back{padding:9px 10px}.nav-back-text{display:none}.nav-account{padding:10px 12px;font-size:.78rem;gap:6px}.nav-account-icon{width:16px;height:16px}.login-label{max-width:18ch}header nav>a:first-child{font-size:1.3rem}}
+@media(max-width:360px){.nav-account{position:static!important;transform:none!important;margin-inline:auto!important;order:1}.nav-back{order:3}.theme-control{order:2}}
+@media(max-width:420px){header nav{gap:4px}header nav>a:first-child{font-size:1.15rem}.nav-account{font-size:.7rem;padding:8px 10px;gap:5px}.nav-account-icon{width:14px;height:14px}.login-label{max-width:14ch}.theme-trigger{width:32px!important;height:32px!important}}
+/* ---------- panel ---------- */
+.acct-wrap{display:grid;grid-template-columns:290px minmax(0,1fr);gap:22px;align-items:start}
+.acct-wrap>*{min-width:0}
+.acct-side{position:sticky;top:96px;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow)}
+.acct-user{display:flex;align-items:center;gap:12px;padding:4px 4px 14px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.acct-avatar{flex:0 0 46px;width:46px;height:46px;border-radius:16px;background:linear-gradient(135deg,#ff5c5c,#ff9a6b);color:#fff;display:grid;place-items:center;font-weight:900;font-size:18px}
+.acct-user b{display:block;font-size:.95rem;line-height:1.6}
+.acct-user p{font-size:.72rem;color:var(--muted);direction:ltr;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:170px}
+.acct-nav{display:flex;flex-direction:column;gap:4px;min-width:0;max-width:100%}
+.acct-nav button{display:flex;align-items:center;gap:10px;width:100%;text-align:right;padding:11px 12px;border-radius:13px;font-size:.86rem;font-weight:700;color:var(--muted);background:transparent;border:1px solid transparent;cursor:pointer;transition:background .15s,color .15s,border-color .15s;font-family:inherit}
+.acct-nav button svg{width:19px;height:19px;flex:0 0 19px;opacity:.85}
+.acct-nav button:hover{background:var(--soft);color:var(--ink)}
+.acct-nav button[aria-current=true]{background:var(--soft);color:var(--accent);border-color:var(--line)}
+.acct-nav .acct-count{margin-inline-start:auto;font-size:.7rem;font-weight:800;background:var(--soft);color:var(--muted);border-radius:9px;padding:2px 7px}
+.acct-nav button[aria-current=true] .acct-count{background:var(--accent);color:#fff}
+.acct-logout{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:12px;padding:11px;border-radius:13px;border:1px solid #fecaca;background:#fef2f2;color:#dc2626;font-weight:800;font-size:.84rem;cursor:pointer;font-family:inherit;transition:background .15s}
+.acct-logout:hover{background:#fee2e2}
+html[data-theme=dark] .acct-logout{background:#331a1f;border-color:#7f1d1d;color:#fca5a5}
+.acct-main{min-width:0;display:flex;flex-direction:column;gap:16px}
+.acct-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px}
+.acct-head h1{font-size:1.5rem;font-weight:900;line-height:1.6}
+.acct-head p{font-size:.82rem;color:var(--muted);margin-top:2px}
+.acct-card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px}
+.acct-card h2{font-size:1rem;font-weight:800;margin-bottom:12px}
+.acct-card h2 small{font-weight:600;font-size:.75rem;color:var(--muted);margin-inline-start:6px}
+.acct-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.acct-stat{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 16px}
+.acct-stat span{display:block;font-size:.72rem;color:var(--muted);margin-bottom:6px}
+.acct-stat b{font-size:1.18rem;font-weight:900;line-height:1.4}
+.acct-stat em{font-style:normal;font-size:.68rem;color:var(--muted);margin-inline-start:3px}
+.acct-trip{position:relative;overflow:hidden;border-radius:22px;border:1px solid var(--line);background:var(--surface);display:grid;grid-template-columns:230px minmax(0,1fr);min-height:190px}
+.acct-trip-img{width:100%;height:100%;object-fit:cover;display:block}
+.acct-trip-body{padding:18px 20px;display:flex;flex-direction:column;gap:8px;justify-content:center}
+.acct-trip-body h3{font-size:1.1rem;font-weight:900;line-height:1.6}
+.acct-meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;font-size:.8rem;color:var(--muted)}
+.acct-meta b{color:var(--ink);font-weight:800}
+.acct-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.acct-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:12px;padding:10px 16px;font-size:.8rem;font-weight:800;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;font-family:inherit;text-decoration:none;transition:background .15s,border-color .15s,color .15s}
+.acct-btn:hover{border-color:var(--accent);color:var(--accent)}
+.acct-btn.primary{background:#ff5c5c;border-color:#ff5c5c;color:#fff;box-shadow:0 6px 16px rgba(255,92,92,.25)}
+.acct-btn.primary:hover{background:#ef4444;border-color:#ef4444;color:#fff}
+html[data-theme=dark] .acct-btn.primary{background:#be3648;border-color:#be3648}
+.acct-btn.ghost{background:transparent}
+.acct-btn:disabled{opacity:.55;cursor:not-allowed}
+.acct-chips{display:flex;flex-wrap:wrap;gap:8px}
+.acct-chips button{border-radius:999px;padding:8px 15px;font-size:.78rem;font-weight:800;background:var(--soft);color:var(--muted);border:1px solid transparent;cursor:pointer;font-family:inherit}
+.acct-chips button[aria-pressed=true]{background:#182338;color:#fff}
+html[data-theme=dark] .acct-chips button[aria-pressed=true]{background:var(--accent);color:#16202c}
+.bk-card{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:12px}
+.bk-card+.bk-card{margin-top:10px}
+.bk-card.slim{grid-template-columns:84px minmax(0,1fr);gap:12px;align-items:center}
+.bk-card.slim .bk-thumb{height:84px;min-height:0;max-height:none;border-radius:12px}
+.bk-card.slim .bk-top b{font-size:.86rem}
+.bk-thumb{width:100%;height:100%;min-height:124px;max-height:150px;object-fit:cover;border-radius:13px;display:block}
+.bk-body{display:flex;flex-direction:column;gap:7px;min-width:0}
+.bk-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.bk-top b{font-size:.95rem;font-weight:800;line-height:1.7}
+.bk-code{font-size:.68rem;color:var(--muted);direction:ltr;text-align:right}
+.bk-detail{border-top:1px dashed var(--line);padding-top:9px;margin-top:2px;display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px 14px;font-size:.76rem}
+.bk-detail div span{display:block;color:var(--muted);font-size:.68rem;margin-bottom:2px}
+.bk-detail div b{font-weight:800}
+.acct-empty{text-align:center;padding:34px 16px;color:var(--muted);font-size:.85rem}
+.acct-empty .glyph{font-size:28px;display:block;margin-bottom:8px}
+.fav-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.fav-card{position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface)}
+.fav-card img{width:100%;height:130px;object-fit:cover;display:block}
+.fav-card .fav-body{padding:10px 12px}
+.fav-card h3{font-size:.82rem;font-weight:800;line-height:1.7;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:38px}
+.fav-card p{font-size:.72rem;color:var(--muted);margin-top:4px}
+.fav-card .fav-del{position:absolute;top:8px;left:8px;width:32px;height:32px;border-radius:50%;background:#fff;color:#ff5c5c;display:grid;place-items:center;border:none;cursor:pointer;box-shadow:0 4px 12px #0003}
+.fav-card .fav-del svg{width:16px;height:16px}
+.acct-field{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
+.acct-field label{font-size:.76rem;font-weight:700;color:var(--muted)}
+.acct-field input,.acct-field textarea,.acct-field select{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px 13px;font-size:.84rem;font-family:inherit;background:var(--surface);color:var(--ink)}
+.acct-field input:focus,.acct-field textarea:focus{outline:2px solid #ff5c5c33;border-color:#ff5c5c}
+.acct-field input:disabled{background:var(--soft);color:var(--muted)}
+.acct-hint{font-size:.72rem;color:var(--muted);line-height:1.9}
+.acct-msg{font-size:.78rem;margin-top:8px;font-weight:700}
+.acct-msg.ok{color:#16a34a}
+.acct-msg.err{color:#dc2626}
+.acct-note{display:flex;gap:10px;align-items:flex-start;border-radius:14px;padding:11px 13px;font-size:.76rem;line-height:1.9;background:var(--soft);color:var(--muted);border:1px solid var(--line)}
+.acct-note.warn{background:#fffbeb;border-color:#fde68a;color:#92400e}
+html[data-theme=dark] .acct-note.warn{background:#2a2113;border-color:#7c5b1a;color:#fcd34d}
+.acct-note.ok{background:#ecfdf5;border-color:#a7f3d0;color:#065f46}
+html[data-theme=dark] .acct-note.ok{background:#0f3320;border-color:#166534;color:#6ee7b7}
+.stars{display:flex;gap:4px;direction:ltr}
+.stars button{background:none;border:none;font-size:22px;line-height:1;cursor:pointer;color:#cbd5e1;padding:0}
+.stars button[aria-pressed=true]{color:#f59e0b}
+.faq{border:1px solid var(--line);border-radius:14px;margin-bottom:8px;overflow:hidden;background:var(--surface)}
+.faq summary{padding:12px 14px;font-size:.82rem;font-weight:800;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--accent);font-weight:900}
+.faq[open] summary::after{content:"–"}
+.faq p{padding:0 14px 13px;font-size:.78rem;color:var(--muted);line-height:2}
+.ticket{border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-top:9px;background:var(--surface)}
+.ticket-head{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:.82rem;font-weight:800}
+.ticket p{font-size:.78rem;color:var(--muted);line-height:2;margin-top:6px;white-space:pre-wrap}
+.ticket .reply{margin-top:9px;border-radius:11px;background:var(--soft);padding:10px 12px;font-size:.78rem;line-height:2}
+.acct-skeleton{height:70vh;border-radius:22px;background:var(--soft);animation:pulse 1.4s infinite}
+@keyframes pulse{0%,100%{opacity:.55}50%{opacity:.9}}
+@media(max-width:1023px){
+  .acct-wrap{grid-template-columns:1fr}
+  .acct-side{position:static;padding:12px;border-radius:18px}
+  .acct-user{padding-bottom:10px}
+  .acct-nav{flex-direction:row;overflow-x:auto;gap:6px;padding-bottom:2px;scrollbar-width:none;min-width:0;max-width:100%}
+  .acct-nav::-webkit-scrollbar{display:none}
+  .acct-nav button{width:auto;white-space:nowrap;padding:9px 13px;font-size:.8rem}
+  .acct-nav button svg{width:17px;height:17px;flex:0 0 17px}
+  .acct-nav .acct-count{margin-inline-start:2px}
+  .acct-logout{margin-top:10px;padding:10px}
+  .acct-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .acct-trip{grid-template-columns:1fr}
+  .acct-trip-img{height:170px}
+  .acct-trip-body{padding:14px 16px}
+  .bk-card{grid-template-columns:1fr}
+  .bk-thumb{height:160px;max-height:none}
+  .acct-head h1{font-size:1.25rem}
+}
+@media(max-width:420px){.acct-card{padding:14px}.acct-meta{font-size:.75rem}}
+</style><meta name="theme-color" content="#ffffff"><link rel="stylesheet" href="assets/theme.css?v=21"><script src="assets/theme.js?v=4"></script></head><body class="bg-white"><header class="border-b border-slate-100 sticky top-0 bg-white/95 backdrop-blur z-10"><nav class="max-w-7xl mx-auto px-5 lg:px-8 h-20 flex items-center justify-between"><a href="index.html" class="font-black text-2xl whitespace-nowrap">آلونک<span class="text-coral">.</span></a><a href="index.html#stays" class="nav-back" aria-label="بازگشت به اقامتگاه‌ها"><span class="nav-back-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 4.5H9.1a2 2 0 0 0-1.6.8L2.4 12l5.1 6.7a2 2 0 0 0 1.6.8H21a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 21 4.5Z"/><path d="m11.6 9.4 5.2 5.2M16.8 9.4l-5.2 5.2"/></svg></span><span class="nav-back-text">بازگشت به اقامتگاه‌ها</span></a><button id="loginBtn" type="button" class="nav-account"><span class="nav-account-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg></span><span class="login-label">ورود / ثبت‌نام</span></button></nav></header><main class="max-w-6xl mx-auto px-5 lg:px-8 py-8"><div id="acctSkeleton" class="acct-skeleton"></div><div id="acctGate" class="hidden max-w-md mx-auto acct-card text-center mt-10"><div class="text-3xl mb-3">✦</div><h1 class="text-xl font-black mb-2">برای دیدن پنل وارد شوید</h1><p class="text-sm text-slate-500 leading-7 mb-5">رزروها، علاقه‌مندی‌ها و اطلاعات حسابتان بعد از ورود همین‌جا نمایش داده می‌شود.</p><button id="gateLogin" type="button" class="acct-btn primary w-full justify-center">ورود / ثبت‌نام</button></div><div id="acctApp" class="hidden"><div class="acct-wrap"><aside class="acct-side"><div class="acct-user"><div class="acct-avatar" id="acctAvatar">—</div><div class="min-w-0"><b id="acctName">—</b><p id="acctEmail" dir="ltr">—</p></div></div><nav class="acct-nav" id="acctNav" aria-label="بخش‌های پنل کاربری"><button type="button" data-view="overview" aria-current="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.8V20h5v-6h4v6h5V9.8"/></svg><span>خلاصه حساب</span></button><button type="button" data-view="bookings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg><span>رزروهای من</span><span class="acct-count" id="navBookingsCount">۰</span></button><button type="button" data-view="favorites"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg><span>علاقه‌مندی‌ها</span><span class="acct-count" id="navFavCount">۰</span></button><button type="button" data-view="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg><span>اطلاعات حساب</span></button><button type="button" data-view="security"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7.5 3v6c0 4.4-3 7.6-7.5 9-4.5-1.4-7.5-4.6-7.5-9V6Z"/><path d="m9 12 2 2 4-4"/></svg><span>امنیت حساب</span></button><button type="button" data-view="support"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8.5 8.5 0 0 1-12.3 7.6L4 21l1.4-4.4A8.5 8.5 0 1 1 21 12Z"/></svg><span>پشتیبانی</span></button></nav><button type="button" id="acctLogout" class="acct-logout"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M10 8l-4 4 4 4M6 12h9"/></svg><span>خروج از حساب</span></button></aside><section class="acct-main"><div class="acct-view" id="view-overview"></div><div class="acct-view hidden" id="view-bookings"></div><div class="acct-view hidden" id="view-favorites"></div><div class="acct-view hidden" id="view-profile"></div><div class="acct-view hidden" id="view-security"></div><div class="acct-view hidden" id="view-support"></div></section></div></div></main><div id="toast" class="fixed bottom-6 right-6 z-[60] hidden bg-ink text-white px-5 py-4 rounded-2xl shadow-2xl text-sm"></div><div id="modal" class="fixed inset-0 z-50 hidden items-center justify-center p-5 bg-ink/60"><div class="bg-white rounded-3xl p-7 w-full max-w-md relative"></div></div><script src="assets/catalog.js?v=1871"></script><script src="assets/auth.js?v=12"></script><script src="assets/account.js?v=1"></script></body></html>

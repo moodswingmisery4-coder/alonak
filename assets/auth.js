@@ -128,7 +128,7 @@
     const label = loginButton.querySelector('.login-label');
     const labelText = currentUser ? `حساب کاربری: ${currentUser.name || currentUser.email}` : 'ورود / ثبت‌نام';
     if (label) label.textContent = labelText; else loginButton.textContent = labelText;
-    loginButton.onclick = () => (currentUser ? renderAccount() : (renderAuth('login'), show()));
+    loginButton.onclick = () => (currentUser ? (location.href = 'account.html') : (renderAuth('login'), show()));
   }
 
   const statusChip = b => {
@@ -271,7 +271,7 @@
     user: () => currentUser,
     refresh: check
   };
-  loginButton.onclick = () => { if (currentUser) renderAccount(); else { renderAuth('login'); show(); } };
+  loginButton.onclick = () => { if (currentUser) location.href = 'account.html'; else { renderAuth('login'); show(); } };
   modal.onclick = e => { if (e.target === modal) { pendingResolve = null; hide(); } };
   check();
 })();
