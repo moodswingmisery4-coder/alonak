@@ -125,7 +125,9 @@
 
   function updateHeader() {
     if (!loginButton) return;
-    loginButton.textContent = currentUser ? `حساب کاربری: ${currentUser.name || currentUser.email}` : 'ورود / ثبت‌نام';
+    const label = loginButton.querySelector('.login-label');
+    const labelText = currentUser ? `حساب کاربری: ${currentUser.name || currentUser.email}` : 'ورود / ثبت‌نام';
+    if (label) label.textContent = labelText; else loginButton.textContent = labelText;
     loginButton.onclick = () => (currentUser ? renderAccount() : (renderAuth('login'), show()));
   }
 
