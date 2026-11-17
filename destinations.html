@@ -51,7 +51,7 @@ header nav>a:first-child{order:0}
 .theme-control{order:2;margin-inline-start:auto}
 .nav-back{order:3;margin-inline-start:0;display:inline-flex;align-items:center;gap:7px;border:1px solid #e2e8f0;background:#fff;border-radius:12px;padding:9px 14px;font-size:.82rem;font-weight:700;color:#475569;line-height:1;white-space:nowrap;transition:border-color .15s,color .15s}
 .nav-back:hover{border-color:#ff5c5c;color:#ff5c5c}
-.nav-back-icon{display:inline-flex;align-items:center;justify-content:center;flex:0 0 22px;width:22px;height:22px;color:#ff5c5c}
+.nav-back-icon{order:2;display:inline-flex;align-items:center;justify-content:center;flex:0 0 22px;width:22px;height:22px;color:#ff5c5c}
 .nav-back-icon svg{width:100%;height:100%}
 .nav-account{position:absolute;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:8px;background:#ff5c5c;color:#fff;border:1px solid #ff5c5c;border-radius:14px;padding:11px 18px;font-weight:800;font-size:.85rem;line-height:1;box-shadow:0 6px 18px rgba(255,92,92,.28);cursor:pointer;white-space:nowrap;transition:background .15s,box-shadow .15s}
 .nav-account:hover{background:#ef4444;box-shadow:0 8px 22px rgba(255,92,92,.35)}
@@ -60,6 +60,7 @@ header nav>a:first-child{order:0}
 .nav-account-icon svg{width:100%;height:100%}
 .login-label{display:inline-block;max-width:26ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle}
 html[data-theme=dark] .nav-back{background:var(--surface);border-color:var(--line);color:var(--ink)}
+@media(min-width:768px){.nav-back{margin-inline-start:14px}}
 @media(min-width:1024px){.login-label{max-width:34ch}}
 @media(max-width:360px){.nav-account{position:static!important;transform:none!important;margin-inline:auto!important;order:1}.nav-back{order:3}.theme-control{order:2}}
 @media(max-width:420px){header nav{gap:4px}header nav>a:first-child{font-size:1.15rem}.nav-account{font-size:.7rem;padding:8px 10px;gap:5px}.nav-account-icon{width:14px;height:14px}.login-label{max-width:14ch}.theme-trigger{width:32px!important;height:32px!important}}
