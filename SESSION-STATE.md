@@ -92,3 +92,26 @@ Before touching any project file, copy the files you are about to change into `b
 - Worker: new `/api/support` GET/POST backed by `support_tickets` (migration `migrations/2026-11-17-support.sql`), `/auth/me` now returns `created_at`. Deployed with `npx wrangler deploy`.
 - Panel service map: bookings read/cancel, review submit (POST /api/reviews), profile PATCH, password change, email verify (blocked while RESEND_API_KEY is unset — health.email=false and the UI says so), support tickets, favorites (localStorage `makanak_favorites` stores catalog indices).
 - CORS allow-list only includes local ports 8765/8787 — serve local tests on 8765.
+
+## 2026-11-17 (later) — header + panel polish, state of play
+### Header
+- Back link vs theme toggle swapped (back is leftmost); back icon is now a **backspace** glyph (left-pointing) with the icon on the **left of its label**; 14px gap to the theme control from 768px up.
+- Logged-in account button no longer prints the full name: it renders a gradient rounded-square avatar with the **first letter of the first name** (`Pouya Rs` → `P`, `محمد سهرابی` → `م`; falls back to the first letter of the email). Avatar sits to the **left** of the fixed label «حساب کاربری». Logged out → person icon + «ورود / ثبت‌نام». Full name kept in aria-label only.
+- index.html's login button originally had no icon markup; it now carries the person icon + `.login-label` like other pages.
+
+### Panel (account.html)
+- Mobile: sidebar collapsed behind a hamburger (`#navToggle` / `#acctMenu`, aria-expanded, closes on select and on Esc); desktop keeps the sticky sidebar and hides the toggle.
+- Spacing pass: stat value↔unit 8px, card paddings 16–20px, section gap 18px, action gap 10px, meta gap 8/18px, booking card 14px padding with 18px image gap, nav icon gap 12px.
+- Status chips were stretching to the row height in `.acct-chips` (text stuck to the top); fixed with `align-items:center` + padded pills (text now centered, both badges 33px).
+- Below 360px CSS width (heavy zoom / tiny phones) stat cards go single-column; verified at 260/300/320/390 with no horizontal overflow.
+
+### Resend / email — STILL BLOCKED
+- `wrangler secret list` shows `RESEND_API_KEY`, but the live worker reports `emailKeyLen: 0` → the secret was saved **empty**. Everything else is wired: `sendEmail()`, `issueCode()`, `/auth/verify/request`, `/auth/reset/request`.
+- Fix: `cd D:\hermes\makanak-worker` then (PowerShell) `'re_XXXX' | npx wrangler secret put RESEND_API_KEY`, then re-check `/api/health` for `email:true`. Default sender is `onboarding@resend.dev` (only delivers to the Resend account owner's address) — set `MAIL_FROM` once a domain is verified. `/api/health` now also returns `emailKeyLen` and `mailFrom` for this diagnosis.
+- Frontend hides/disabled the verify CTA when `health.email` is false.
+
+### Ops notes
+- Asset versions now: `auth.js?v=14`, `theme.css?v=22`, `account.js?v=2`, `catalog.js?v=1871`.
+- Backups for this batch: `backups/20261117-header-swap-backspace/`, `-header-spacing-iconleft/`, `-index-account-icon/`, `-account-panel/`, `-avatar-left-mobilenav/`, `-header-avatar/`, `-panel-hamburger/`, `-panel-spacing/`; worker backup `makanak-worker/backups/index.js.*.bak`.
+- All temporary test users created during verification were deleted from D1 (0 users matching `%test%`).
+- Open: hero CTA «جستجوی اقامتگاه» duplicates the «رزرو اقامتگاه جدید» button on the overview — candidate cleanup. Email flow can't be end-to-end tested until the key is real.
