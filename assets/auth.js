@@ -123,11 +123,40 @@
     };
   }
 
+  function initialOf(user) {
+    const source = String((user && (user.name || user.email)) || '').trim();
+    if (!source) return '؟';
+    const first = source.split(/\s+/)[0] || source;
+    return Array.from(first)[0].toUpperCase();
+  }
+
   function updateHeader() {
     if (!loginButton) return;
     const label = loginButton.querySelector('.login-label');
-    const labelText = currentUser ? `حساب کاربری: ${currentUser.name || currentUser.email}` : 'ورود / ثبت‌نام';
-    if (label) label.textContent = labelText; else loginButton.textContent = labelText;
+    const icon = loginButton.querySelector('.nav-account-icon');
+    let avatar = loginButton.querySelector('.nav-avatar');
+    if (currentUser) {
+      const initial = initialOf(currentUser);
+      loginButton.classList.add('is-user');
+      if (!avatar) {
+        avatar = document.createElement('span');
+        avatar.className = 'nav-avatar';
+        avatar.setAttribute('aria-hidden', 'true');
+        loginButton.insertBefore(avatar, loginButton.firstChild);
+      }
+      avatar.textContent = initial;
+      if (icon) icon.style.display = 'none';
+      const labelText = 'حساب کاربری';
+      if (label) label.textContent = labelText; else if (!loginButton.querySelector('.nav-avatar')) loginButton.textContent = labelText;
+      loginButton.setAttribute('aria-label', 'حساب کاربری ' + (currentUser.name || currentUser.email) + ' — باز کردن پنل');
+    } else {
+      loginButton.classList.remove('is-user');
+      if (avatar) avatar.remove();
+      if (icon) icon.style.display = '';
+      const labelText = 'ورود / ثبت‌نام';
+      if (label) label.textContent = labelText; else loginButton.textContent = labelText;
+      loginButton.removeAttribute('aria-label');
+    }
     loginButton.onclick = () => (currentUser ? (location.href = 'account.html') : (renderAuth('login'), show()));
   }
 

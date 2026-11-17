@@ -242,3 +242,8 @@ html[data-theme=dark] .review-msg.is-ok{color:#4ade80}
 @media(max-width:400px){.bk-day{min-height:42px;border-radius:10px;padding:4px 0 3px}.bk-day-num{font-size:13px}.bk-day-price{font-size:9.5px}.bk-nav{width:28px;height:28px;font-size:15px}.bk-cal-head{font-size:13.5px}}
 
 #secRules{scroll-margin-top:110px}
+/* header account avatar (logged-in state) */
+.nav-avatar{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:9px;background:linear-gradient(135deg,#ff5c5c,#ff9a6b);color:#fff;font-weight:900;font-size:13px;line-height:1;flex:0 0 26px;box-shadow:0 2px 8px rgba(255,92,92,.35)}
+html[data-theme] .nav-account.is-user,html[data-theme] #loginBtn.is-user{background:var(--surface)!important;color:var(--ink)!important;border-color:var(--line)!important;box-shadow:0 3px 12px #00000014!important;font-weight:800}
+html[data-theme] .nav-account.is-user:hover,html[data-theme] #loginBtn.is-user:hover{background:var(--soft)!important;border-color:var(--accent)!important;color:var(--ink)!important}
+@media(max-width:420px){.nav-avatar{width:22px;height:22px;flex-basis:22px;font-size:11px;border-radius:8px}}
