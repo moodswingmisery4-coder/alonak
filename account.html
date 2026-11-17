@@ -44,6 +44,8 @@ html[data-theme=dark] .nav-back{background:var(--surface);border-color:var(--lin
 .acct-logout:hover{background:#fee2e2}
 html[data-theme=dark] .acct-logout{background:#331a1f;border-color:#7f1d1d;color:#fca5a5}
 .acct-main{min-width:0;display:flex;flex-direction:column;gap:18px}
+.acct-view{display:flex;flex-direction:column;gap:18px;min-width:0}
+.acct-view.hidden{display:none!important}
 .acct-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px}
 .acct-head h1{font-size:1.5rem;font-weight:900;line-height:1.6}
 .acct-head p{font-size:.82rem;color:var(--muted);margin-top:2px}
@@ -144,6 +146,7 @@ html[data-theme=dark] .acct-note.ok{background:#0f3320;border-color:#166534;colo
   .acct-empty{padding:24px 12px}
   .acct-card h2{margin-bottom:10px}
   .acct-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .acct-view{gap:14px}
   .acct-trip{grid-template-columns:1fr}
   .acct-trip-img{height:170px}
   .acct-trip-body{padding:14px 16px}
