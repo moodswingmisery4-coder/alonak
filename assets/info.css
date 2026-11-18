@@ -124,7 +124,7 @@ body{font-family:Vazirmatn,Tahoma,sans-serif;color:var(--ink)}
     .inf-socials{grid-template-columns:1fr}
   }
   @media(max-width:767px){
-    .inf-nav{height:72px;gap:8px;padding:0 20px}
+    .inf-nav{height:80px;gap:8px;padding:0 20px}
     .inf-tag{display:none}
       .inf-hero{padding:18px 0 8px}
     .inf-hero h1{font-size:1.55rem;line-height:1.75}

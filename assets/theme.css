@@ -248,9 +248,12 @@ html[data-theme] .nav-account.is-user,html[data-theme] #loginBtn.is-user{backgro
 html[data-theme] .nav-account.is-user:hover,html[data-theme] #loginBtn.is-user:hover{background:var(--soft)!important;border-color:var(--accent)!important;color:var(--ink)!important}
 @media(max-width:420px){.nav-avatar{width:22px;height:22px;flex-basis:22px;font-size:11px;border-radius:8px}}
 
-/* ---- shared back-to-home pill (identical on every page) ---- */
+/* ---- shared back-to-home button (identical on every page) ---- */
 .back-home{display:inline-flex;align-items:center;justify-content:center;gap:7px;order:9;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:9px 14px;min-height:38px;font-family:inherit;font-size:.78rem;font-weight:800;line-height:1;color:var(--muted);text-decoration:none;white-space:nowrap;cursor:pointer;transition:border-color .15s,color .15s,background .15s}
 .back-home:hover,.back-home:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
 .back-home svg{width:16px;height:16px;flex:0 0 16px;color:var(--accent)}
-@media(max-width:420px){.back-home{padding:8px 11px;min-height:36px;font-size:.74rem}}
-@media(max-width:359px){.back-home{padding:7px 9px;min-height:34px;font-size:.7rem;gap:5px}.back-home svg{width:14px;height:14px}}
+@media(max-width:767px){
+  .back-home{width:40px;height:40px;min-height:40px;padding:0;gap:0;flex:0 0 40px}
+  .back-home .bh-label{display:none}
+  .back-home svg{width:18px;height:18px;flex-basis:18px}
+}
