@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مرکز اطلاعات آلونک | درباره ما، قوانین و پشتیبانی</title>
+<meta name="description" content="هر چیزی که باید درباره آلونک بدانید: درباره ما، مجله سفر، فرصت‌های شغلی، پشتیبانی، قوانین و مقررات، حریم خصوصی و سوالات متداول.">
+<meta name="theme-color" content="#ffffff">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{fontFamily:{sans:['Vazirmatn','Tahoma']},colors:{ink:'#182338',coral:'#ff5c5c',sand:'#fff8f3'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/theme.css?v=23">
+<style>
+  body{font-family:Vazirmatn,Tahoma,sans-serif;color:var(--ink)}
+  .inf-header{position:sticky;top:0;z-index:60;background:color-mix(in srgb,var(--page) 92%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  .inf-nav{max-width:1120px;margin:0 auto;padding:0 20px;height:72px;display:flex;align-items:center;gap:12px}
+  .inf-brand{font-weight:900;font-size:1.35rem;line-height:1;text-decoration:none;color:var(--ink);white-space:nowrap}
+  .inf-brand span{color:var(--accent)}
+  .inf-tag{font-size:.72rem;color:var(--muted);padding-inline-start:12px;border-inline-start:1px solid var(--line);white-space:nowrap}
+  .inf-cta{margin-inline-start:auto;display:inline-flex;align-items:center;justify-content:center;gap:7px;background:var(--accent);color:#fff;border:1px solid var(--accent);border-radius:13px;padding:10px 16px;font-size:.8rem;font-weight:800;text-decoration:none;white-space:nowrap;box-shadow:0 8px 20px rgba(255,92,92,.25);transition:filter .15s,transform .15s}
+  .inf-cta:hover{filter:brightness(1.06)}
+  .inf-shell{max-width:1120px;margin:0 auto;padding:0 20px 64px}
+
+  /* hero */
+  .inf-hero{padding:56px 0 8px}
+  .inf-badge{display:inline-flex;align-items:center;gap:7px;background:var(--soft);border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:7px 14px;font-size:.72rem;font-weight:800}
+  .inf-hero h1{font-size:2.1rem;line-height:1.6;font-weight:900;margin:18px 0 12px;letter-spacing:-.2px}
+  .inf-hero h1 em{font-style:normal;color:var(--accent)}
+  .inf-hero p{font-size:.92rem;line-height:2.2;color:var(--muted);max-width:60ch}
+  .inf-hero-meta{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:22px;font-size:.76rem;color:var(--muted)}
+  .inf-hero-meta span{display:inline-flex;align-items:center;gap:6px}
+  .inf-hero-meta svg{width:15px;height:15px;color:var(--accent);flex:0 0 15px}
+
+  /* sticky section nav */
+  .inf-jump{position:sticky;top:72px;z-index:50;margin-top:26px;padding:10px 0;background:color-mix(in srgb,var(--page) 94%,transparent);backdrop-filter:blur(10px);border-block:1px solid var(--line)}
+  .inf-jump-in{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px}
+  .inf-jump-in::-webkit-scrollbar{display:none}
+  .inf-jump a{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:8px 14px;font-size:.76rem;font-weight:800;text-decoration:none;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
+  .inf-jump a:hover,.inf-jump a:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+
+  /* sections */
+  .inf-sec{scroll-margin-top:152px;padding-top:52px}
+  .inf-kicker{display:inline-flex;align-items:center;gap:8px;color:var(--accent);font-size:.74rem;font-weight:900;letter-spacing:.4px}
+  .inf-kicker svg{width:16px;height:16px}
+  .inf-sec h2{font-size:1.45rem;font-weight:900;line-height:1.7;margin:10px 0 10px}
+  .inf-sec .inf-lead{font-size:.88rem;line-height:2.2;color:var(--muted);max-width:72ch;margin-bottom:22px}
+  .inf-card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 1px 2px rgba(24,35,56,.03)}
+  .inf-grid{display:grid;gap:16px}
+  .inf-grid.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .inf-grid.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .inf-grid.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+
+  /* stats */
+  .inf-stat{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:6px}
+  .inf-stat b{font-size:1.5rem;font-weight:900;line-height:1.4;color:var(--ink)}
+  .inf-stat span{font-size:.74rem;color:var(--muted)}
+  .inf-stat i{font-style:normal;font-size:.68rem;color:var(--accent);font-weight:800}
+
+  /* value cards */
+  .inf-value{display:flex;flex-direction:column;gap:10px}
+  .inf-value .ic{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:rgba(255,92,92,.1);color:var(--accent);border:1px solid rgba(255,92,92,.18)}
+  .inf-value .ic svg{width:20px;height:20px}
+  .inf-value b{font-size:.92rem;font-weight:900}
+  .inf-value p{font-size:.8rem;line-height:2.1;color:var(--muted);margin:0}
+
+  /* magazine */
+  .inf-post{display:flex;flex-direction:column;overflow:hidden;padding:0}
+  .inf-post img{width:100%;height:170px;object-fit:cover;display:block}
+  .inf-post .body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:9px}
+  .inf-post .tag{align-self:flex-start;background:var(--soft);border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:4px 10px;font-size:.68rem;font-weight:800}
+  .inf-post h3{font-size:.94rem;font-weight:900;line-height:1.9;margin:0}
+  .inf-post p{font-size:.78rem;line-height:2.1;color:var(--muted);margin:0}
+  .inf-post .foot{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:.7rem;color:var(--muted);margin-top:2px}
+  .inf-post .foot a{color:var(--accent);font-weight:900;text-decoration:none}
+  .inf-post .foot a:hover{text-decoration:underline;text-underline-offset:4px}
+
+  /* careers */
+  .inf-job{display:flex;flex-direction:column;gap:12px}
+  .inf-job-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+  .inf-job h3{font-size:.94rem;font-weight:900;margin:0;line-height:1.8}
+  .inf-job p{font-size:.78rem;line-height:2.1;color:var(--muted);margin:0}
+  .inf-tags{display:flex;flex-wrap:wrap;gap:7px}
+  .inf-tags span{font-size:.68rem;font-weight:800;color:var(--muted);background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+  .inf-mini-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:11px;padding:8px 14px;font-size:.74rem;font-weight:900;text-decoration:none;white-space:nowrap;transition:border-color .15s,color .15s}
+  .inf-mini-btn:hover{border-color:var(--accent);color:var(--accent)}
+  .inf-mini-btn.solid{background:var(--accent);border-color:var(--accent);color:#fff}
+  .inf-mini-btn.solid:hover{filter:brightness(1.06);color:#fff}
+
+  /* support */
+  .inf-help{display:flex;flex-direction:column;gap:8px;text-decoration:none;color:inherit;transition:border-color .15s,transform .15s}
+  .inf-help:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .inf-help .ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--soft);border:1px solid var(--line);color:var(--accent)}
+  .inf-help .ic svg{width:19px;height:19px}
+  .inf-help b{font-size:.88rem;font-weight:900}
+  .inf-help p{font-size:.76rem;color:var(--muted);line-height:2;margin:0}
+  .inf-help em{font-style:normal;font-size:.78rem;font-weight:800;color:var(--ink);direction:ltr;text-align:right;display:block}
+
+  /* accordions */
+  .inf-acc{border:1px solid var(--line);border-radius:16px;background:var(--surface);overflow:hidden;margin-bottom:10px}
+  .inf-acc summary{display:flex;align-items:center;gap:12px;padding:14px 16px;font-size:.85rem;font-weight:800;cursor:pointer;list-style:none;line-height:1.9}
+  .inf-acc summary::-webkit-details-marker{display:none}
+  .inf-acc summary .n{flex:0 0 26px;width:26px;height:26px;border-radius:9px;display:grid;place-items:center;background:var(--soft);border:1px solid var(--line);color:var(--muted);font-size:.72rem;font-weight:900}
+  .inf-acc summary .pm{margin-inline-start:auto;flex:0 0 22px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--soft);color:var(--accent);font-weight:900;font-size:1rem;line-height:1}
+  .inf-acc summary .pm::after{content:"+"}
+  .inf-acc[open] summary .pm::after{content:"–"}
+  .inf-acc[open] summary .n{background:var(--accent);border-color:var(--accent);color:#fff}
+  .inf-acc .ans{padding:0 16px 16px 54px;font-size:.8rem;line-height:2.2;color:var(--muted)}
+  .inf-acc .ans p{margin:0 0 8px}
+  .inf-acc .ans p:last-child{margin-bottom:0}
+
+  /* privacy */
+  .inf-privacy h3{font-size:.86rem;font-weight:900;margin:0 0 8px}
+  .inf-privacy p{font-size:.79rem;line-height:2.15;color:var(--muted);margin:0}
+  .inf-note{display:flex;gap:10px;align-items:flex-start;background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:13px 15px;font-size:.77rem;line-height:2.1;color:var(--muted)}
+  .inf-note svg{width:17px;height:17px;flex:0 0 17px;color:var(--accent);margin-top:5px}
+
+  /* contact / socials */
+  .inf-socials{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  .inf-social{display:flex;align-items:center;gap:12px;padding:16px;border-radius:18px;border:1px solid var(--line);background:var(--surface);text-decoration:none;color:inherit;transition:border-color .15s,transform .15s,box-shadow .15s}
+  .inf-social:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:0 14px 30px rgba(24,35,56,.08)}
+  .inf-social .ic{width:44px;height:44px;flex:0 0 44px;border-radius:14px;display:grid;place-items:center;color:#fff}
+  .inf-social .ic svg{width:21px;height:21px}
+  .inf-social.tg .ic{background:#229ed9}
+  .inf-social.ig .ic{background:linear-gradient(45deg,#f9ce34,#ee2a7b 55%,#6228d7)}
+  .inf-social.yt .ic{background:#ff0033}
+  .inf-social b{display:block;font-size:.85rem;font-weight:900}
+  .inf-social span{display:block;font-size:.72rem;color:var(--muted);direction:ltr;text-align:right}
+
+  /* footer */
+  .inf-footer{border-top:1px solid var(--line);background:var(--soft)}
+  .inf-footer-in{max-width:1120px;margin:0 auto;padding:26px 20px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px}
+  .inf-footer-in p{margin:0;font-size:.74rem;color:var(--muted)}
+  .inf-footer-in nav{display:flex;flex-wrap:wrap;gap:14px}
+  .inf-footer-in nav a{font-size:.74rem;font-weight:700;color:var(--muted);text-decoration:none}
+  .inf-footer-in nav a:hover{color:var(--accent)}
+
+  @media(max-width:900px){
+    .inf-grid.c4{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .inf-grid.c3{grid-template-columns:1fr}
+    .inf-socials{grid-template-columns:1fr}
+  }
+  @media(max-width:767px){
+    .inf-nav{height:64px;gap:8px;padding:0 16px}
+    .inf-tag{display:none}
+    .inf-jump{top:64px}
+    .inf-hero{padding:34px 0 4px}
+    .inf-hero h1{font-size:1.55rem;line-height:1.75}
+    .inf-hero p{font-size:.85rem;line-height:2.1}
+    .inf-sec{padding-top:40px;scroll-margin-top:142px}
+    .inf-sec h2{font-size:1.2rem}
+    .inf-grid.c2{grid-template-columns:1fr}
+    .inf-card{padding:16px;border-radius:16px}
+    .inf-acc .ans{padding:0 14px 14px 14px}
+    .inf-cta{padding:9px 12px;font-size:.74rem}
+    .inf-footer-in{padding:22px 16px}
+  }
+  @media(max-width:420px){
+    .inf-grid.c4{grid-template-columns:1fr 1fr;gap:10px}
+    .inf-stat{padding:14px}
+    .inf-stat b{font-size:1.25rem}
+  }
+</style>
+<script src="assets/theme.js?v=4"></script>
+</head>
+<body class="bg-white">
+
+<header class="inf-header">
+  <nav class="inf-nav">
+    <a href="index.html" class="inf-brand">آلونک<span>.</span></a>
+    <span class="inf-tag">مرکز اطلاعات</span>
+    <a href="index.html#stays" class="inf-cta">رزرو اقامتگاه</a>
+  </nav>
+</header>
+
+<main class="inf-shell">
+
+  <section class="inf-hero">
+    <span class="inf-badge">✦ نسخه ۱٫۰ — به‌روزرسانی آبان ۱۴۰۵</span>
+    <h1>هر چیزی که باید درباره <em>آلونک</em> بدانید</h1>
+    <p>آلونک یک پلتفرم ایرانی برای رزرو ویلا، سوئیت و اقامتگاه بومگردی است؛ ساخته‌شده تا سفر داخل ایران ساده‌تر، شفاف‌تر و مطمئن‌تر شود. در این صفحه همه اطلاعات پایه را یک‌جا جمع کرده‌ایم: از داستان ما و قوانین رزرو تا پشتیبانی، حریم خصوصی و فرصت‌های همکاری.</p>
+    <div class="inf-hero-meta">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>پوشش ۲۴ استان ایران</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>پاسخ‌گویی ۹ صبح تا ۱۰ شب</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v6c0 4.4-3 7.6-7.5 9-4.5-1.4-7.5-4.6-7.5-9V6Z"/><path d="m9 12 2 2 4-4"/></svg>پرداخت امن و لغو شفاف</span>
+    </div>
+  </section>
+
+  <nav class="inf-jump" aria-label="بخش‌های مرکز اطلاعات">
+    <div class="inf-jump-in">
+      <a href="#about">درباره ما</a>
+      <a href="#magazine">مجله سفر</a>
+      <a href="#careers">فرصت‌های شغلی</a>
+      <a href="#support">پشتیبانی</a>
+      <a href="#rules">قوانین و مقررات</a>
+      <a href="#privacy">حریم خصوصی</a>
+      <a href="#faq">سوالات متداول</a>
+      <a href="#contact">ارتباط با ما</a>
+    </div>
+  </nav>
+
+  <!-- درباره ما -->
+  <section class="inf-sec" id="about">
+    <span class="inf-kicker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.8V20h5v-6h4v6h5V9.8"/></svg>درباره ما</span>
+    <h2>آلونک، خانه‌ای برای سفرهای واقعی</h2>
+    <p class="inf-lead">ما با این ایده شروع کردیم که پیدا کردن یک اقامتگاه خوب در ایران نباید سخت باشد. امروز آلونک اقامتگاه‌های محلی را با میزبان‌های واقعی و تصاویر واقعی کنار هم می‌آورد تا انتخاب شما بر اساس اطلاعات درست انجام شود، نه حدس و گمان.</p>
+    <div class="inf-grid c4" style="margin-bottom:16px">
+      <div class="inf-stat"><b>۸۴</b><span>اقامتگاه فعال با گالری واقعی</span><i>در حال رشد</i></div>
+      <div class="inf-stat"><b>۱٬۶۲۸</b><span>شهر و روستا با تفکیک محله</span><i>سراسر ایران</i></div>
+      <div class="inf-stat"><b>۲۴</b><span>استان زیر پوشش</span><i>شمال تا جنوب</i></div>
+      <div class="inf-stat"><b>۹۶٪</b><span>رضایت مهمانان از اقامت</span><i>بر اساس بازخورد ثبت‌شده</i></div>
+    </div>
+    <div class="inf-grid c3">
+      <div class="inf-card inf-value">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M5 8h9a3 3 0 0 1 0 6H6"/></svg></span>
+        <b>قیمت شفاف، بدون هزینه پنهان</b>
+        <p>مبلغ هر شب، هزینه رفت‌وروب و مالیات از ابتدا مشخص است. چیزی خارج از مبلغ اعلام‌شده از شما گرفته نمی‌شود.</p>
+      </div>
+      <div class="inf-card inf-value">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20a7 7 0 0 1 14 0"/></svg></span>
+        <b>میزبان محلی، تأییدشده</b>
+        <p>هر میزبان پیش از انتشار، هویت و اقامتگاهش را ثبت می‌کند. نظراتی که ثبت می‌شود فقط از مهمانان واقعی است.</p>
+      </div>
+      <div class="inf-card inf-value">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8.5 8.5 0 0 1-12.3 7.6L4 21l1.4-4.4A8.5 8.5 0 1 1 21 12Z"/></svg></span>
+        <b>پشتیبانی انسانی</b>
+        <p>در تمام مسیر رزرو یک نفر از تیم پشتیبانی پاسخ‌گوی شماست — از انتخاب اقامتگاه تا بعد از تسویه.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- مجله سفر -->
+  <section class="inf-sec" id="magazine">
+    <span class="inf-kicker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v14H4z"/><path d="M4 9h16M9 9v10"/></svg>مجله سفر</span>
+    <h2>راهنمای سفر، از کسانی که رفته‌اند</h2>
+    <p class="inf-lead">مسیرها، آداب محلی و بهترین زمان سفر. یادداشت‌های کوتاه و کاربردی برای انتخاب مقصد و اقامتگاه درست.</p>
+    <div class="inf-grid c3">
+      <article class="inf-card inf-post">
+        <img src="assets/images/photo-1601918774946-25832a4be0d6.jpg" alt="کلبه جنگلی در مه جنگل‌های شمال" loading="lazy">
+        <div class="body">
+          <span class="tag">شمال ایران</span>
+          <h3>سه روز در غرب مازندران؛ مسیری که کمتر دیده‌اید</h3>
+          <p>از کتالم و رامسر تا ناهارخوران گرگان؛ برای هر شب یک اقامتگاه دنج و برای هر روز یک چرای محلی.</p>
+          <div class="foot"><span>۶ دقیقه مطالعه</span><a href="destinations.html?destination=north">دیدن مقصد</a></div>
+        </div>
+      </article>
+      <article class="inf-card inf-post">
+        <img src="assets/stays/421804.jpg" alt="حیاط اقامتگاه سنتی خشتی در شب" loading="lazy">
+        <div class="body">
+          <span class="tag">کویر و مرکز ایران</span>
+          <h3>شب‌مانی در کویر: چه چیزی را باید از قبل بدانید</h3>
+          <p>انتخاب بین اقامتگاه خشتی و کمپ، بهترین فصل آسمان پرستاره، و وسایلی که کمتر کسی یادش می‌ماند.</p>
+          <div class="foot"><span>۸ دقیقه مطالعه</span><a href="destinations.html?destination=desert">دیدن مقصد</a></div>
+        </div>
+      </article>
+      <article class="inf-card inf-post">
+        <img src="assets/images/photo-1533105079780-92b9be482077.jpg" alt="کوچه‌های سفید و دریای آبی در جنوب" loading="lazy">
+        <div class="body">
+          <span class="tag">جزایر جنوب</span>
+          <h3>کیش بدون هتل؛ راهنمای اقامت‌های خانگی</h3>
+          <p>چطور در جزیره سوئیت مناسب پیدا کنیم، چه ساعتی پرواز بگیریم و چرا فاصله از ساحل مهم‌تر از قیمت است.</p>
+          <div class="foot"><span>۵ دقیقه مطالعه</span><a href="destinations.html?destination=kish">دیدن مقصد</a></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- فرصت‌های شغلی -->
+  <section class="inf-sec" id="careers">
+    <span class="inf-kicker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="3"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>فرصت‌های شغلی</span>
+    <h2>با ما بسازید؛ دورکار و بدون مرز</h2>
+    <p class="inf-lead">آلونک تیمی کوچک با محصولی زنده است. تمرکز ما نتیجه است نه حضور در دفتر؛ اگر سفر، میزبانی و تجربه کاربری برایتان موضوع مهمی است، این موقعیت‌ها را ببینید.</p>
+    <div class="inf-grid" style="gap:12px">
+      <div class="inf-card inf-job">
+        <div class="inf-job-top">
+          <div><h3>کارشناس پشتیبانی مهمان</h3><p>پاسخ به تیکت‌های رزرو و پیگیری درخواست‌های تغییر و لغو، هماهنگی با میزبان‌ها.</p></div>
+          <a class="inf-mini-btn solid" href="mailto:jobs@alonak.ir?subject=رزومه%20-%20کارشناس%20پشتیبانی">ارسال رزومه</a>
+        </div>
+        <div class="inf-tags"><span>تمام‌وقت</span><span>دورکاری</span><span>حداقل ۱ سال تجربه</span></div>
+      </div>
+      <div class="inf-card inf-job">
+        <div class="inf-job-top">
+          <div><h3>توسعه‌دهنده فرانت‌اند</h3><p>کار روی تجربه رزرو، سرعت صفحه و دسترس‌پذیری. HTML/CSS مدرن و JavaScript، آشنایی با طراحی واکنش‌گرا الزامی است.</p></div>
+          <a class="inf-mini-btn solid" href="mailto:jobs@alonak.ir?subject=رزومه%20-%20فرانت‌اند">ارسال رزومه</a>
+        </div>
+        <div class="inf-tags"><span>پروژه‌ای / تمام‌وقت</span><span>دورکاری</span><span>نمونه‌کار الزامی</span></div>
+      </div>
+      <div class="inf-card inf-job">
+        <div class="inf-job-top">
+          <div><h3>مدیر محتوا و شبکه‌های اجتماعی</h3><p>تولید محتوای مجله سفر، مدیریت تلگرام و اینستاگرام آلونک و همکاری با میزبان‌ها برای روایت اقامتگاه‌ها.</p></div>
+          <a class="inf-mini-btn solid" href="mailto:jobs@alonak.ir?subject=رزومه%20-%20محتوا">ارسال رزومه</a>
+        </div>
+        <div class="inf-tags"><span>پاره‌وقت</span><span>دورکاری</span><span>قدرت نویسندگی</span></div>
+      </div>
+    </div>
+    <div class="inf-note" style="margin-top:14px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
+      <span>اگر موقعیت مناسبی در فهرست نیست، رزومه‌تان را با موضوع «همکاری» به jobs@alonak.ir بفرستید؛ در اولین فرصت بررسی می‌کنیم.</span>
+    </div>
+  </section>
+
+  <!-- پشتیبانی -->
+  <section class="inf-sec" id="support">
+    <span class="inf-kicker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8.5 8.5 0 0 1-12.3 7.6L4 21l1.4-4.4A8.5 8.5 0 1 1 21 12Z"/></svg>پشتیبانی</span>
+    <h2>کمک لازم دارید؟ سه راه داریم</h2>
+    <p class="inf-lead">برای سوال درباره رزرو، تغییر تاریخ یا مشکل در پرداخت، از هر کانالی که راحت‌تر است پیام بدهید. میانگین پاسخ‌گویی زیر ۲۴ ساعت است.</p>
+    <div class="inf-grid c3">
+      <a class="inf-card inf-help" href="account.html#support">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v12H8l-4 4z"/></svg></span>
+        <b>تیکت در پنل کاربری</b>
+        <p>سریع‌ترین راه برای پیگیری رزروهای ثبت‌شده؛ تاریخچه گفتگو ذخیره می‌شود.</p>
+        <em>account.html → پشتیبانی</em>
+      </a>
+      <a class="inf-card inf-help" href="mailto:support@alonak.ir">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg></span>
+        <b>ایمیل پشتیبانی</b>
+        <p>مناسب ارسال مدارک، فیش پرداخت یا توضیح کامل مشکل.</p>
+        <em>support@alonak.ir</em>
+      </a>
+      <a class="inf-card inf-help" href="tel:+982191000000">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3Z"/></svg></span>
+        <b>تماس تلفنی</b>
+        <p>برای موارد فوری مانند ورود در همان روز یا مشکل در محل اقامتگاه.</p>
+        <em>۰۲۱-۹۱۰۰۰۰۰۰</em>
+      </a>
+    </div>
+    <div class="inf-note" style="margin-top:14px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      <span>ساعات پاسخ‌گویی: شنبه تا پنجشنبه، ۹ صبح تا ۱۰ شب. پیام‌های ارسالی خارج از این بازه، صبح روز بعد پاسخ داده می‌شوند.</span>
+    </div>
+  </section>
+
+  <!-- قوانین و مقررات -->
+  <section class="inf-sec" id="rules">
+    <span class="inf-kicker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h5"/></svg>قوانین و مقررات</span>
+    <h2>شرایط رزرو، پرداخت و لغو</h2>
+    <p class="inf-lead">ثبت درخواست رزرو در آلونک به معنی پذیرش این شرایط است. جزئیات اختصاصی هر اقامتگاه (ساعت ورود، تعداد مهمان مجاز و قوانین میزبان) در صفحه همان اقامتگاه اعلام می‌شود.</p>
+
+    <details class="inf-acc" open>
+      <summary><span class="n">۱</span><span>ثبت و تأیید رزرو</span><span class="pm" aria-hidden="true"></span></summary>
+      <div class="ans">
+        <p>درخواست شما ابتدا با وضعیت «در انتظار تأیید» ثبت می‌شود. میزبان حداکثر تا ۱۲ ساعت فرصت دارد آن را تأیید یا رد کند. پس از تأیید، رزرو قطعی است و جزئیات تماس میزبان در پنل کاربری نمایش داده می‌شود.</p>
+        <p>اگر رزرو تأیید نشود، هیچ مبلغی از شما کسر نمی‌شود و می‌توانید اقامتگاه دیگری انتخاب کنید.</p>
+      </div>
+    </details>
+    <details class="inf-acc">
+      <summary><span class="n">۲</span><span>پرداخت و پیش‌پرداخت</span><span class="pm" aria-hidden="true"></span></summary>
+      <div class="ans">
+        <p>برای قطعی‌شدن رزرو، پیش‌پرداخت ۳۰٪ مبلغ کل لازم است. مانده مبلغ هنگام ورود و به میزبان پرداخت می‌شود، مگر آنکه در صفحه اقامتگاه شرط دیگری ذکر شده باشد.</p>
+        <p>مبلغ اعلام‌شده شامل هزینه اقامت است؛ هزینه‌های جانبی مانند ورود حیوان خانگی یا سرویس اضافه، پیش از رزرو به‌صورت شفاف نمایش داده می‌شود.</p>
+      </div>
+    </details>
+    <details class="inf-acc">
+      <summary><span class="n">۳</span><span>لغو رزرو و بازگشت وجه</span><span class="pm" aria-hidden="true"></span></summary>
+      <div class="ans">
+        <p>لغو تا ۷۲ ساعت قبل از ورود: بازگشت کامل پیش‌پرداخت. لغو بین ۷۲ تا ۲۴ ساعت قبل: بازگشت ۵۰٪ پیش‌پرداخت. لغو در کمتر از ۲۴ ساعت مانده به ورود: پیش‌پرداخت قابل بازگشت نیست.</p>
+        <p>بازگشت وجه حداکثر تا ۷۲ ساعت کاری به همان حساب پرداخت‌کننده انجام می‌شود.</p>
+      </div>
+    </details>
+    <details class="inf-acc">
+      <summary><span class="n">۴</span><span>ورود، خروج و تعداد مهمان</span><span class="pm" aria-hidden="true"></span></summary>
+      <div class="ans">
+        <p>ساعت ورود به‌طور معمول از ۱۴:۰۰ و ساعت خروج تا ۱۲:۰۰ است؛ زمان دقیق در صفحه اقامتگاه مشخص شده است. ورود زودتر یا خروج دیرتر فقط با هماهنگی میزبان امکان‌پذیر است.</p>
+        <p>افزایش تعداد مهمان از سقف اعلام‌شده مجاز نیست و می‌تواند به لغو رزرو بدون بازگشت وجه منجر شود.</p>
+      </div>
+    </details>
+    <details class="inf-acc">
+      <summary><span class="n">۵</span><span>مسئولیت میزبان و مهمان</span><span class="pm" aria-hidden="true"></span></summary>
+      <div class="ans">
+        <p>میزبان مسئول تطابق اقامتگاه با توضیحات و تصاویر منتشرشده است. مهمان نیز متعهد به رعایت قوانین محل، آرامش همسایگان و نگهداری اموال اقامتگاه است.</p>
+        <p>آلونک واسط معرفی و رزرو است؛ در صورت بروز اختلاف، تیم پشتیبانی برای بررسی و حل‌وفصل وارد می‌شود.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- حریم خصوصی -->
+  <section class="inf-sec" id="privacy">
+    <span class="inf-kicker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v6c0 4.4-3 7.6-7.5 9-4.5-1.4-7.5-4.6-7.5-9V6Z"/><path d="m9 12 2 2 4-4"/></svg>حریم خصوصی</span>
+    <h2>اطلاعات شما، فقط برای انجام رزرو</h2>
+    <p class="inf-lead">ما فقط اطلاعاتی را نگه می‌داریم که برای ثبت رزرو، هماهنگی با میزبان و پشتیبانی لازم است — نه بیشتر.</p>
+    <div class="inf-grid c3">
+      <div class="inf-card inf-privacy">
+        <h3>چه چیزی جمع می‌کنیم</h3>
+        <p>نام، شماره تماس، ایمیل و تاریخ‌های سفر. اطلاعات پرداخت در درگاه بانکی انجام می‌شود و شماره کارت روی سرورهای ما ذخیره نمی‌شود.</p>
+      </div>
+      <div class="inf-card inf-privacy">
+        <h3>چطور استفاده می‌کنیم</h3>
+        <p>فقط برای تأیید رزرو، اطلاع‌رسانی وضعیت سفر و پاسخ به درخواست پشتیبانی. هیچ اطلاعاتی برای تبلیغات به شخص ثالث فروخته نمی‌شود.</p>
+      </div>
+      <div class="inf-card inf-privacy">
+        <h3>نگهداری و امنیت</h3>
+        <p>دسترسی به داده‌ها محدود به تیم عملیات است. با حذف حساب، اطلاعات شخصی حداکثر تا ۳۰ روز پاک می‌شود؛ سوابق مالی طبق الزام قانونی نگه داشته می‌شود.</p>
+      </div>
+    </div>
+    <div class="inf-note" style="margin-top:14px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v12H8l-4 4z"/></svg>
+      <span>برای درخواست حذف داده یا مشاهده اطلاعات ذخیره‌شده، از ایمیل privacy@alonak.ir استفاده کنید.</span>
+    </div>
+  </section>
+
+  <!-- سوالات متداول -->
+  <section class="inf-sec" id="faq">
+    <span class="inf-kicker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.2a2.5 2.5 0 1 1 3.9 2.1c-.9.6-1.5 1-1.5 2.2M12 17h.01"/></svg>سوالات متداول</span>
+    <h2>پاسخ کوتاه به پرتکرارترین پرسش‌ها</h2>
+    <p class="inf-lead">اگر پاسخ سوال‌تان اینجا نبود، از بخش پشتیبانی پیام بدهید؛ پاسخ را به همین صفحه هم اضافه می‌کنیم.</p>
+
+    <details class="inf-acc">
+      <summary><span class="n">؟</span><span>رزرو چقدر زمان می‌برد تا تأیید شود؟</span><span class="pm" aria-hidden="true"></span></summary>
+      <div class="ans"><p>معمولاً کمتر از یک ساعت. میزبان حداکثر ۱۲ ساعت فرصت دارد؛ وضعیت رزرو در پنل کاربری و از طریق پیام برای شما به‌روزرسانی می‌شود.</p></div>
+    </details>
+    <details class="inf-acc">
+      <summary><span class="n">؟</span><span>امکان پرداخت در محل وجود دارد؟</span><span class="pm" aria-hidden="true"></span></summary>
+      <div class="ans"><p>برای قطعی‌شدن رزرو، پیش‌پرداخت آنلاین لازم است. مانده مبلغ را می‌توانید هنگام ورود به میزبان پرداخت کنید، مگر آنکه در صفحه اقامتگاه شرط دیگری نوشته شده باشد.</p></div>
+    </details>
+    <details class="inf-acc">
+      <summary><span class="n">؟</span><span>تاریخ‌ها را می‌توانم تغییر دهم؟</span><span class="pm" aria-hidden="true"></span></summary>
+      <div class="ans"><p>تغییر تاریخ تا ۷۲ ساعت قبل از ورود و در صورت موجود بودن اقامتگاه امکان‌پذیر است. برای هماهنگی، تیکت پشتیبانی با کد رزرو ثبت کنید.</p></div>
+    </details>
+    <details class="inf-acc">
+      <summary><span class="n">؟</span><span>آیا با حیوان خانگی می‌توانم بیایم؟</span><span class="pm" aria-hidden="true"></span></summary>
+      <div class="ans"><p>به قوانین هر اقامتگاه بستگی دارد؛ در فهرست امکانات صفحه اقامتگاه مشخص شده است. در صورت نبود این گزینه، پیش از رزرو با پشتیبانی هماهنگ کنید.</p></div>
+    </details>
+    <details class="inf-acc">
+      <summary><span class="n">؟</span><span>میزبان هستم؛ چطور اقامتگاهم را ثبت کنم؟</span><span class="pm" aria-hidden="true"></span></summary>
+      <div class="ans"><p>با ایمیل host@alonak.ir درخواست بدهید. پس از بررسی مدارک و بازدید تصاویر، صفحه اقامتگاه شما با گالری واقعی منتشر می‌شود. کارمزد آلونک از هر رزرو، پیش از انتشار به‌صورت شفاف اعلام می‌شود.</p></div>
+    </details>
+    <details class="inf-acc">
+      <summary><span class="n">؟</span><span>اگر اقامتگاه با تصاویر مطابقت نداشت چه کنم؟</span><span class="pm" aria-hidden="true"></span></summary>
+      <div class="ans"><p>همان‌جا با پشتیبانی تماس بگیرید و مستندات (عکس یا ویدئو) ارسال کنید. در صورت تأیید مغایرت، برای جابه‌جایی به اقامتگاه جایگزین یا بازگشت وجه اقدام می‌کنیم.</p></div>
+    </details>
+  </section>
+
+  <!-- تماس -->
+  <section class="inf-sec" id="contact">
+    <span class="inf-kicker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8.5 8.5 0 0 1-12.3 7.6L4 21l1.4-4.4A8.5 8.5 0 1 1 21 12Z"/></svg>ارتباط با ما</span>
+    <h2>آلونک را در شبکه‌های اجتماعی دنبال کنید</h2>
+    <p class="inf-lead">عکس اقامتگاه‌های تازه، پیشنهادهای آخر هفته و راهنمای سفر را در کانال‌های رسمی ما ببینید.</p>
+    <div class="inf-socials">
+      <a class="inf-social tg" href="https://t.me/alonak" target="_blank" rel="noopener noreferrer" aria-label="آلونک در تلگرام">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg></span>
+        <div><b>تلگرام آلونک</b><span>@alonak</span></div>
+      </a>
+      <a class="inf-social ig" href="https://instagram.com/alonak" target="_blank" rel="noopener noreferrer" aria-label="آلونک در اینستاگرام">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.2.05 2 .25 2.5.45.6.24 1.1.56 1.6 1.05.5.5.8.99 1.05 1.6.2.5.4 1.3.45 2.5.07 1.3.07 1.7.07 4.9s0 3.6-.07 4.9c-.05 1.2-.25 2-.45 2.5a4.4 4.4 0 0 1-1.05 1.6 4.4 4.4 0 0 1-1.6 1.05c-.5.2-1.3.4-2.5.45-1.3.07-1.7.07-4.9.07s-3.6 0-4.9-.07c-1.2-.05-2-.25-2.5-.45a4.4 4.4 0 0 1-1.6-1.05 4.4 4.4 0 0 1-1.05-1.6c-.2-.5-.4-1.3-.45-2.5C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.9c.05-1.2.25-2 .45-2.5.24-.61.56-1.1 1.05-1.6.5-.49.99-.8 1.6-1.05.5-.2 1.3-.4 2.5-.45C8.4 2.2 8.8 2.2 12 2.2zm0 3.3a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zm0 2.3a4.2 4.2 0 1 1 0 8.4 4.2 4.2 0 0 1 0-8.4zm6.8-2.6a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg></span>
+        <div><b>اینستاگرام آلونک</b><span>@alonak</span></div>
+      </a>
+      <a class="inf-social yt" href="https://youtube.com/@alonak" target="_blank" rel="noopener noreferrer" aria-label="آلونک در یوتیوب">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.8-1.8C19.3 5 12 5 12 5s-7.3 0-8.8.5A2.5 2.5 0 0 0 1.4 7.3C1 8.8 1 12 1 12s0 3.2.4 4.7a2.5 2.5 0 0 0 1.8 1.8C4.7 19 12 19 12 19s7.3 0 8.8-.5a2.5 2.5 0 0 0 1.8-1.8C23 15.2 23 12 23 12zM9.8 15.2V8.8l6 3.2-6 3.2z"/></svg></span>
+        <div><b>یوتیوب آلونک</b><span>@alonak</span></div>
+      </a>
+    </div>
+    <div class="inf-note" style="margin-top:14px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>
+      <span>برای همکاری، تبلیغات یا پیشنهاد کسب‌وکار: <b style="color:var(--ink)">hello@alonak.ir</b> — پاسخ‌گویی در روزهای کاری.</span>
+    </div>
+  </section>
+</main>
+
+<footer class="inf-footer">
+  <div class="inf-footer-in">
+    <p>© ۱۴۰۵ آلونک؛ همه حقوق محفوظ است.</p>
+    <nav aria-label="لینک‌های فوتر">
+      <a href="#about">درباره ما</a>
+      <a href="#rules">قوانین و مقررات</a>
+      <a href="#privacy">حریم خصوصی</a>
+      <a href="#faq">سوالات متداول</a>
+      <a href="index.html#stays">اقامتگاه‌ها</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
