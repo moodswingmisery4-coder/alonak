@@ -1,13 +1,13 @@
 # Makanak (آلونک) — session state
 
-Last updated: 2026-11-17 (evening) — brand = آلونک, homepage/search/cards/header rework; all deployed & verified live.
+Last updated: 2026-11-18 — footer socials, 8 standalone info pages, unified back button; all deployed & verified live. HEAD `8d4a2c2`.
 
 ## HARD RULE — backup before every edit
-Before touching any project file, copy the files you are about to change into `backups/<YYYYMMDD>-<slug>/` (git-ignored, so it never lands in the repo) and mention the snapshot in the report. Rollback = copy back from that folder, or `git revert` / `git reset --hard <sha>` (every deployed step is its own commit). Snapshots so far: `backups/20261117-rename-alunak/`, `backups/20261117-header-arrow/`.
+Before touching any project file, copy the files you are about to change into `backups/<YYYYMMDD>-<slug>/` (git-ignored, so it never lands in the repo) and mention the snapshot in the report. Rollback = copy back from that folder, or `git revert` / `git reset --hard <sha>` (every deployed step is its own commit). Snapshots so far: `backups/20261117-rename-alunak/`, `backups/20261117-header-arrow/`, `backups/20261117-panel-hamburger/`, `backups/20261117-panel-card-spacing/`, `backups/20261117-footer-social/`, `backups/20261117-info-pages/`, `backups/20261117-no-infocenter/`, `backups/20261117-back-home/`, `backups/20261117-back-unify/`.
 
 ## Resume here (next session)
-- **Live asset versions** — stay.html: `theme.css?v=21`, `booking.js?v=13`, `catalog.js?v=1871`, `stay-data.js?v=1`, `stay-sections.js?v=6`, `auth.js?v=11`, `theme.js?v=4`. index.html: `auth.js?v=11`, `theme.js?v=4`, `catalog.js?v=1871`. destinations.html: `theme.css?v=21`, `catalog.js?v=1871`, `auth.js?v=11`, `theme.js?v=4`. about/guide: `theme.js?v=4`. Bump the exact `?v=` on every edit — Pages caches aggressively.
-- **Git:** frontend `main` in sync with origin, HEAD `ddbb758` ("back icon is now a clean filled circular-arrow"). Tree clean. `makanak-worker` is **not** a git repo — snapshot `src/index.js`, `schema.sql` and the seeds before big edits.
+- **Live asset versions** — **theme.css is now `?v=25` on every page** and must be bumped on any edit to it (`.back-home` lives there). info pages: `info.css?v=3`. stay.html: `theme.css?v=21`, `booking.js?v=13`, `catalog.js?v=1871`, `stay-data.js?v=1`, `stay-sections.js?v=6`, `auth.js?v=11`, `theme.js?v=4`. index.html: `auth.js?v=11`, `theme.js?v=4`, `catalog.js?v=1871`. destinations.html: `theme.css?v=21`, `catalog.js?v=1871`, `auth.js?v=11`, `theme.js?v=4`. about/guide: `theme.js?v=4`. Bump the exact `?v=` on every edit — Pages caches aggressively.
+- **Git:** frontend `main` in sync with origin, HEAD `8d4a2c2` ("back button: tag icon; icon-only square on mobile, label + icon on the left on desktop"). Tree clean. `makanak-worker` is **not** a git repo — snapshot `src/index.js`, `schema.sql` and the seeds before big edits.
 - **Local:** nothing running. Test with `python -m http.server <port>` in `D:/hermes/makanak`; verify live with `?cb=<timestamp>` and read computed styles/rects via JS — a `curl` hit alone proves nothing.
 - **RTL UI rules (apply to every arrow):** glyphs `‹` `›` (U+2039/203A) and even `←`/`→` are Bidi_Mirrored and flip in `dir=rtl` — always use inline SVG. An arrow must point to the side it sits on (right arrow on the right, left arrow on the left); in RTL the first DOM child of a flex row renders on the right, right = back / left = forward.
 
@@ -115,3 +115,24 @@ Before touching any project file, copy the files you are about to change into `b
 - Backups for this batch: `backups/20261117-header-swap-backspace/`, `-header-spacing-iconleft/`, `-index-account-icon/`, `-account-panel/`, `-avatar-left-mobilenav/`, `-header-avatar/`, `-panel-hamburger/`, `-panel-spacing/`; worker backup `makanak-worker/backups/index.js.*.bak`.
 - All temporary test users created during verification were deleted from D1 (0 users matching `%test%`).
 - Open: hero CTA «جستجوی اقامتگاه» duplicates the «رزرو اقامتگاه جدید» button on the overview — candidate cleanup. Email flow can't be end-to-end tested until the key is real.
+
+## 2026-11-18 — footer socials, standalone info pages, unified back button (all live)
+### Footer (index.html only — it is the only page with a footer)
+- «با ما در ارتباط باشید» now has three real links: t.me/alonak, instagram.com/alonak, youtube.com/@alonak, each with brand SVG icon + `@alonak` handle; hover tints per network (Telegram #229ed9, IG gradient, YT #ff0033); styles are a dedicated `<style>` block in index.html (`.ft-social*`), dark-mode safe via theme vars.
+- Every other footer link points at its own page now (no `#anchor` into a single hub).
+
+### Info pages — one topic per page (info.html no longer exists)
+- 8 pages, all generated from **`tools/build_info_pages.py`** (edit content there, run `python tools/build_info_pages.py`, then commit the html): `about.html`, `magazine.html`, `careers.html`, `support.html`, `rules.html`, `privacy.html` (with a data-retention table), `faq.html` (8 accordions), `contact.html` (socials + 3 mailto cards).
+- Shared shell: same head/header/footer, breadcrumb «خانه / <title>», coral segmented styles, dark mode; **all CSS lives in `assets/info.css`** (v=3). Pages hold no `<style>` of their own.
+- The horizontal tab scroller and the «مرکز اطلاعات» hub were **removed on Soheil's request** — each page stands alone, no cross-page tab bar. Navigation between them is via the footer only.
+
+### Back button (`.back-home`, defined once in `assets/theme.css`)
+- Markup: `<a href="…" class="back-home"><span class="bh-label">بازگشت</span><svg tag-with-X …></svg></a>` — label first so in RTL the **icon renders to the left of the text** on desktop; on ≤767px the label is hidden and the box becomes a **40×40 rounded square** (matches the theme toggle next to it).
+- Position: `order:9` puts it at the far left of every header; info pages got `max-width:1280px / padding 32px / height 80px` on `.inf-nav` so the box lands on the exact same pixels as destinations.html (verified 92×38 @ x=32,y=21 desktop; 40×40 @ x=20,y=20 mobile).
+- Targets: `destinations.html` → `index.html#inspiration` («کشف مقصدهای محبوب», lands 90px under the sticky header via `scroll-margin-top:90px`); all 8 info pages → `index.html#about` (the footer).
+- Icon is the **tag-with-X** glyph (same path as the old destinations nav-back), not the house icon — Soheil rejected the house version.
+
+### Ops
+- Pages caches hard: `theme.css?v=25`, `info.css?v=3`. Bump on every tweak or the phone keeps the old CSS.
+- Backend untouched this session.
+- Open: index.html still shows a ~14px horizontal overflow at ~768px width (pre-existing header layout, not from these changes); hero/overview duplicate CTA noted earlier is still open.
