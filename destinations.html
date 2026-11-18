@@ -112,6 +112,7 @@ function render(){
   pager.querySelector('#staysPrev').onclick=()=>{page-=1;render();document.querySelector('main').scrollIntoView({behavior:'smooth',block:'start'})};
   pager.querySelector('#staysNext').onclick=()=>{page+=1;render();document.querySelector('main').scrollIntoView({behavior:'smooth',block:'start'})};
 }
+if(params.get('from')==='inspiration'){const eyebrow=document.querySelector('main .mb-9 p');if(eyebrow)eyebrow.remove()}
 buildFilters();
 render();
 </script></body></html>
