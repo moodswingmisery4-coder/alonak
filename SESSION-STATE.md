@@ -1,13 +1,13 @@
 # Makanak (آلونک) — session state
 
-Last updated: 2026-11-18 — footer socials, 8 standalone info pages, unified back button; all deployed & verified live. HEAD `8d4a2c2`.
+Last updated: 2026-11-18 — footer socials, 8 standalone info pages, unified back button; all deployed & verified live. HEAD `3b1df23`.
 
 ## HARD RULE — backup before every edit
 Before touching any project file, copy the files you are about to change into `backups/<YYYYMMDD>-<slug>/` (git-ignored, so it never lands in the repo) and mention the snapshot in the report. Rollback = copy back from that folder, or `git revert` / `git reset --hard <sha>` (every deployed step is its own commit). Snapshots so far: `backups/20261117-rename-alunak/`, `backups/20261117-header-arrow/`, `backups/20261117-panel-hamburger/`, `backups/20261117-panel-card-spacing/`, `backups/20261117-footer-social/`, `backups/20261117-info-pages/`, `backups/20261117-no-infocenter/`, `backups/20261117-back-home/`, `backups/20261117-back-unify/`.
 
 ## Resume here (next session)
 - **Live asset versions** — **theme.css is now `?v=25` on every page** and must be bumped on any edit to it (`.back-home` lives there). info pages: `info.css?v=3`. stay.html: `theme.css?v=21`, `booking.js?v=13`, `catalog.js?v=1871`, `stay-data.js?v=1`, `stay-sections.js?v=6`, `auth.js?v=11`, `theme.js?v=4`. index.html: `auth.js?v=11`, `theme.js?v=4`, `catalog.js?v=1871`. destinations.html: `theme.css?v=21`, `catalog.js?v=1871`, `auth.js?v=11`, `theme.js?v=4`. about/guide: `theme.js?v=4`. Bump the exact `?v=` on every edit — Pages caches aggressively.
-- **Git:** frontend `main` in sync with origin, HEAD `8d4a2c2` ("back button: tag icon; icon-only square on mobile, label + icon on the left on desktop"). Tree clean. `makanak-worker` is **not** a git repo — snapshot `src/index.js`, `schema.sql` and the seeds before big edits.
+- **Git:** frontend `main` in sync with origin, HEAD `3b1df23` ("docs: session state + committed info-page generator"; previous: "back button: tag icon; icon-only square on mobile, label + icon on the left on desktop"). Tree clean. `makanak-worker` is **not** a git repo — snapshot `src/index.js`, `schema.sql` and the seeds before big edits.
 - **Local:** nothing running. Test with `python -m http.server <port>` in `D:/hermes/makanak`; verify live with `?cb=<timestamp>` and read computed styles/rects via JS — a `curl` hit alone proves nothing.
 - **RTL UI rules (apply to every arrow):** glyphs `‹` `›` (U+2039/203A) and even `←`/`→` are Bidi_Mirrored and flip in `dir=rtl` — always use inline SVG. An arrow must point to the side it sits on (right arrow on the right, left arrow on the left); in RTL the first DOM child of a flex row renders on the right, right = back / left = forward.
 
