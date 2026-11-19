@@ -161,6 +161,12 @@ Before touching any project file, copy the files you are about to change into `b
 
 ## PENDING — next session (stop point 2026-11-19)
 
+> **URGENT at stop time:** Soheil added a `CNAME` file (`makanak.kdns.fr`) through the GitHub UI (commit `7bd5a46`),
+> so Pages now 301-redirects **all** `…github.io/makanak/*` URLs to `https://makanak.kdns.fr/` — and that hostname
+> still has **no DNS record**, so the site is unreachable until the record below is created. Pages `cname` =
+> `makanak.kdns.fr`, `https_certificate.state` = `approved`, `protected_domain_state` = `unverified`.
+> Quick rollback if needed: delete `CNAME` from the repo root (site serves on github.io again), then re-add later.
+
 **Task:** point the apex domain `makanak.kdns.fr` at the GitHub Pages site (only remaining step).
 
 Current live state (all verified working):
