@@ -158,3 +158,37 @@ Before touching any project file, copy the files you are about to change into `b
 - Verified: `/api/health` = 200 + `{"ok":true}` on api subdomain and workers.dev; CORS preflight from github.io ok; from the live page `auth.js?v=15` loads and `GET /api/auth/me` → 200 from the page origin.
 - Backups: `makanak-worker/backups/20261119-subdomain/wrangler.toml`, `makanak/backups/20261119-api-subdomain/auth.js`. Commits: worker via wrangler deploy (version 9228dc0a), frontend `584189d`.
 - Gotcha: `git push` over HTTPS silently hangs from this box (git 2.53 + GCM); it succeeds with `GIT_TRACE=1 GIT_HTTP_TRACE=1` set and a 30s `timeout` (see D:\hermes\tmp\push.log). Plain/killed pushes leave origin/main unchanged — always confirm `git rev-parse origin/main`.
+
+## PENDING — next session (stop point 2026-11-19)
+
+**Task:** point the apex domain `makanak.kdns.fr` at the GitHub Pages site (only remaining step).
+
+Current live state (all verified working):
+- Site: https://moodswingmisery4-coder.github.io/makanak/ — Pages source `main /`, `https_enforced: true`, `cname: null`.
+- API: https://api.makanak.kdns.fr/api (worker custom domain) + fallback https://makanak-worker.makanak-app.workers.dev/api.
+- Apex `makanak.kdns.fr`: no DNS record at all (worker route deleted); returns nothing.
+
+Blocked on DNS write access:
+- Wrangler OAuth token (`cfoat_…` in `%APPDATA%\xdg.config\.wrangler\config\default.toml`) has only `workers`/`workers_kv` scope → Cloudflare API DNS calls fail with `code 10000 Authentication error`.
+- Cloudflare dashboard in the local browser is stopped by the bot challenge ("Just a moment…", Ray ID changes each retry) — not solvable by automation.
+
+Two ways forward (agreed with Soheil, waiting on his pick):
+1. Soheil adds the DNS record himself: zone makanak.kdns.fr → Add record → `CNAME`, name `@`, target `moodswingmisery4-coder.github.io`, Proxy **DNS only**. Then I run the rest.
+2. Soheil creates a Cloudflare API token with `Zone → DNS → Edit` for this zone and saves it to `D:\hermes\tmp\cf-token.txt`; then:
+
+```bash
+# 1) DNS record (DNS-only so GitHub can issue its cert)
+TOK=$(cat D:/hermes/tmp/cf-token.txt)
+curl -X POST -H "Authorization: Bearer $TOK" -H "Content-Type: application/json" \
+  -d '{"type":"CNAME","name":"makanak.kdns.fr","content":"moodswingmisery4-coder.github.io","proxied":false,"ttl":1}' \
+  https://api.cloudflare.com/client/v4/zones/757e5848447b74c9af78cb45bc79396f/dns_records
+
+# 2) attach the custom domain on GitHub Pages (repo admin token = `git credential-manager get` password)
+GH=$(printf 'protocol=https\nhost=github.com\n\n' | git credential-manager get 2>/dev/null | grep '^password=' | cut -d= -f2-)
+curl -X PUT -H "Authorization: Bearer $GH" -H "Accept: application/vnd.github+json" \
+  -d '{"cname":"makanak.kdns.fr","https_enforced":true}' \
+  https://api.github.com/repos/moodswingmisery4-coder/makanak/pages
+```
+- After that: wait for the Pages cert (`GET /repos/.../pages` until `https_certificate.state == approved`), verify `https://makanak.kdns.fr/` serves the site and that `https://…github.io/makanak/` redirects to it, and that the API still answers (`/api/health`).
+- Watch-outs: keep the record **DNS-only** until the cert is issued (proxying breaks GitHub's HTTP-01 validation); the worker CORS allow-list already contains `https://makanak.kdns.fr`. Site links are relative, so serving at the domain root instead of `/makanak/` is fine — but re-check `destinations.html`, `stay.html`, `account.html` and the info pages after the switch.
+- Repo state at stop: `main` = `e691814`, working tree clean, pushed.
