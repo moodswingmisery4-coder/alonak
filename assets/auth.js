@@ -1,5 +1,5 @@
 (() => {
-  const API_BASES = ['https://api.makanak.kdns.fr/api', 'https://makanak-worker.makanak-app.workers.dev/api'];
+  const API_BASES = ['https://api.alonak.kdns.fr/api', 'https://alonak-worker.makanak-app.workers.dev/api'];
   let apiBase = API_BASES[0];
   const API = () => apiBase;
   const modal = document.querySelector('#modal');
@@ -11,8 +11,8 @@
   const show = () => { modal.classList.remove('hidden'); modal.classList.add('flex'); };
   const hide = () => { modal.classList.add('hidden'); modal.classList.remove('flex'); };
   const toast = t => { const x = document.querySelector('#toast'); if (x) { x.textContent = t; x.classList.remove('hidden'); setTimeout(() => x.classList.add('hidden'), 2800); } };
-  const TOKEN_KEY = 'makanak_token';
-  const getToken = () => { try { return localStorage.getItem(TOKEN_KEY) || ''; } catch { return ''; } };
+  const TOKEN_KEY = 'alonak_token';
+  const getToken = () => { try { return localStorage.getItem(TOKEN_KEY) || localStorage.getItem('makanak_token') || ''; } catch { return ''; } };
   const setToken = t => { try { t ? localStorage.setItem(TOKEN_KEY, t) : localStorage.removeItem(TOKEN_KEY); } catch {} };
   const fa = v => String(v).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
   const money = v => fa(String(Math.round(Number(v) || 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ','));
@@ -288,7 +288,7 @@
     try { const d = await api('/auth/me'); currentUser = d.user || null; updateHeader(); } catch {}
   }
 
-  window.makanakAuth = {
+  window.alonakAuth = {
     api,
     requireLogin: cb => new Promise(resolve => {
       if (currentUser) return resolve(cb ? cb(currentUser) : true);

@@ -2,10 +2,10 @@
   'use strict';
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
-  const API = (...args) => window.makanakAuth.api(...args);
-  const STAYS = window.MAKANAK_STAYS || [];
+  const API = (...args) => window.alonakAuth.api(...args);
+  const STAYS = window.ALONAK_STAYS || [];
   const BY_ID = new Map(STAYS.map(s => [s.id, s]));
-  const FAV_KEY = 'makanak_favorites';
+  const FAV_KEY = 'alonak_favorites';
 
   const fa = v => String(v ?? '').replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
   const money = v => fa(String(Math.round(Number(v) || 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ','));
@@ -48,7 +48,7 @@
 
   function readFavorites() {
     try {
-      const list = JSON.parse(localStorage.getItem(FAV_KEY) || '[]');
+      const list = JSON.parse(localStorage.getItem(FAV_KEY) || localStorage.getItem('makanak_favorites') || '[]');
       return new Set((Array.isArray(list) ? list : []).map(Number).filter(n => Number.isInteger(n) && n >= 0 && n < STAYS.length));
     } catch { return new Set(); }
   }
@@ -246,7 +246,7 @@
       try {
         const d = await API('/auth/me', { method: 'PATCH', body: JSON.stringify({ name: form.name.value.trim(), phone: form.phone.value.trim() }) });
         user = d.user || user;
-        window.makanakAuth.refresh();
+        window.alonakAuth.refresh();
         paintCounters();
         msg.className = 'acct-msg ok'; msg.textContent = 'اطلاعات حساب ذخیره شد.';
         toast('اطلاعات حساب ذخیره شد');
@@ -432,7 +432,7 @@
 
   async function logout() {
     try { await API('/auth/logout', { method: 'POST' }); } catch {}
-    try { localStorage.removeItem('makanak_token'); } catch {}
+    try { localStorage.removeItem('alonak_token'); } catch {}
     location.href = 'index.html';
   }
 
@@ -443,7 +443,7 @@
     $('#acctApp').classList.add('hidden');
     $('#acctGate').classList.remove('hidden');
     $('#gateLogin').onclick = () => {
-      window.makanakAuth.requireLogin(() => { $('#acctGate').classList.add('hidden'); $('#acctSkeleton').classList.remove('hidden'); boot(); });
+      window.alonakAuth.requireLogin(() => { $('#acctGate').classList.add('hidden'); $('#acctSkeleton').classList.remove('hidden'); boot(); });
     };
   }
 
@@ -489,7 +489,7 @@
   }
 
   const start = () => {
-    if (!window.makanakAuth) return;
+    if (!window.alonakAuth) return;
     const initial = (location.hash || '').replace('#', '');
     if (views.includes(initial)) route = initial;
     window.addEventListener('hashchange', () => {

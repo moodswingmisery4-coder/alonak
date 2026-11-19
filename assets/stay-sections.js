@@ -1,4 +1,4 @@
-/* Makanak — stay detail sections (specs, amenities, hours, rules, reviews)
+/* Alonak — stay detail sections (specs, amenities, hours, rules, reviews)
    Data source: assets/stay-data.js (generated from the jabama capture). */
 (function () {
   const FA = '۰۱۲۳۴۵۶۷۸۹';
@@ -418,7 +418,7 @@
         </article>`).join('');
     };
 
-    const api = window.makanakAuth && window.makanakAuth.api;
+    const api = window.alonakAuth && window.alonakAuth.api;
     const load = async () => {
       if (!api) { list.innerHTML = '<p class="review-empty">دریافت نظرات ممکن نشد.</p>'; return; }
       try {
@@ -434,7 +434,7 @@
       setMsg('');
       const body = root.querySelector('[data-review-body]').value.trim();
       if (body && body.length < 10) { setMsg('متن نظر باید حداقل ۱۰ کاراکتر باشد.', 'is-error'); return; }
-      const auth = window.makanakAuth;
+      const auth = window.alonakAuth;
       if (!auth || !auth.requireLogin) { setMsg('برای ثبت نظر وارد حساب کاربری شوید.', 'is-error'); return; }
       const btn = root.querySelector('[data-review-submit]');
       const label = btn.textContent;
@@ -454,5 +454,5 @@
     });
   }
 
-  window.MakanakSections = { mount };
+  window.AlonakSections = { mount };
 })();

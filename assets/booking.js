@@ -1,4 +1,4 @@
-/* Makanak booking widget — Jalali calendar + guest stepper + live price summary */
+/* Alonak booking widget — Jalali calendar + guest stepper + live price summary */
 (function () {
   const FA = '۰۱۲۳۴۵۶۷۸۹';
   const toFa = v => String(v).replace(/\d/g, d => FA[d]);
@@ -6,7 +6,7 @@
   const MONTHS = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
   const WEEKDAYS = ['ش', 'ی', 'د', 'س', 'چ', 'پ', 'ج'];
   const MAX_NIGHTS = 60;
-  // --- pricing rules: keep in sync with makanak-worker/src/index.js ---
+  // --- pricing rules: keep in sync with alonak-worker/src/index.js ---
   const WEEKEND_MULT = 1.2;
   const EXTRA_PERSON_RATIO = 0.15;
   const ROUND_STEP = 10000;
@@ -296,7 +296,7 @@
         showError('تاریخ خروج باید بعد از تاریخ ورود باشد.');
         return;
       }
-      const auth = window.makanakAuth;
+      const auth = window.alonakAuth;
       if (auth && auth.requireLogin) {
         const ok = await auth.requireLogin();
         if (!ok) return;
@@ -353,5 +353,5 @@
     };
   }
 
-  window.MakanakBooking = { mount, money, formatDate };
+  window.AlonakBooking = { mount, money, formatDate };
 })();
