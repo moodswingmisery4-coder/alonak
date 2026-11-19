@@ -202,3 +202,11 @@ curl -X PUT -H "Authorization: Bearer $GH" -H "Accept: application/vnd.github+js
 - After that: wait for the Pages cert (`GET /repos/.../pages` until `https_certificate.state == approved`), verify `https://makanak.kdns.fr/` serves the site and that `https://…github.io/makanak/` redirects to it, and that the API still answers (`/api/health`).
 - Watch-outs: keep the record **DNS-only** until the cert is issued (proxying breaks GitHub's HTTP-01 validation); the worker CORS allow-list already contains `https://makanak.kdns.fr`. Site links are relative, so serving at the domain root instead of `/makanak/` is fine — but re-check `destinations.html`, `stay.html`, `account.html` and the info pages after the switch.
 - Repo state at stop: `main` = `e691814`, working tree clean, pushed.
+
+## 2026-11-19 — homepage header: four nav links removed (live)
+- Soheil asked to drop the «اقامتگاه‌ها / الهام سفر / میزبان شوید / درباره آلونک» menu from the header.
+- Removed the whole `<div class="main-nav …">` block from `index.html` — those four links exist **only** there (info pages have `.inf-nav`, other pages have no nav row; verified by grep).
+- Because the menu was what caused the 768–1023px squeeze, the tablet rule added earlier (`@media(min-width:768px) and (max-width:1023px){header #hostBtn{display:none…}}`) was **deleted** from `theme.css` — `#hostBtn` now shows at every width ≥640 again. `theme.css?v=29` in all 12 pages.
+- Verified live on https://alonak.kdns.fr: 0 `.main-nav a` nodes; scrollWidth == viewport at 375/768/1024/1280/1440; header = logo right, host + login + theme toggle left, no overlap (desktop + 390px screenshots checked).
+- Leftovers: dead `.main-nav` CSS rules still sit in index.html's inline `<style>` (line ~21) — harmless, can be deleted in a cleanup pass. Nav targets `#stays`, `#inspiration`, `#host` are still reachable by scrolling; `about.html` is linked from the footer.
+- Backup: `backups/20261119-remove-nav/` (index.html, theme.css). Commit `3da8e3c`.
