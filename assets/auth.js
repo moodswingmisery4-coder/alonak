@@ -1,5 +1,5 @@
 (() => {
-  const API_BASES = ['https://makanak-worker.makanak-app.workers.dev/api', 'https://makanak.kdns.fr/api'];
+  const API_BASES = ['https://api.makanak.kdns.fr/api', 'https://makanak-worker.makanak-app.workers.dev/api'];
   let apiBase = API_BASES[0];
   const API = () => apiBase;
   const modal = document.querySelector('#modal');
