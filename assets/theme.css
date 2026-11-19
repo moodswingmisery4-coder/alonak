@@ -260,8 +260,3 @@ html[data-theme] .nav-account.is-user:hover,html[data-theme] #loginBtn.is-user:h
 
 .logo-house{display:inline-flex;align-items:center;justify-content:center;width:.86em;height:.86em;margin-inline-start:.2em;vertical-align:-.12em;color:var(--accent)}
 .logo-house svg{width:100%;height:100%;display:block}
-
-/* Tablet header fit (768-1023px): nav links + «میزبان شوید» button + login button overrun
-   the viewport and push the left cluster off-screen (index.html scrolled 822px wide at 768px).
-   The button duplicates the «میزبان شوید» nav link, so drop it in this range only. */
-@media(min-width:768px) and (max-width:1023px){header #hostBtn{display:none!important}header nav{gap:8px}}
