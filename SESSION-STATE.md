@@ -136,3 +136,15 @@ Before touching any project file, copy the files you are about to change into `b
 - Pages caches hard: `theme.css?v=25`, `info.css?v=3`. Bump on every tweak or the phone keeps the old CSS.
 - Backend untouched this session.
 - Open: index.html still shows a ~14px horizontal overflow at ~768px width (pre-existing header layout, not from these changes); hero/overview duplicate CTA noted earlier is still open.
+
+## 2026-11-19 — tablet header overflow fixed (live) + duplicate hero CTA closed
+- `index.html` overflowed to 822px at a 768px viewport (scrollWidth 822 vs vw 753): at 768–1023 the
+  logo + 4 nav links + «میزبان شوید» button + login button need ~778px inside 713px, so the left cluster
+  was pushed off-screen (left = −69px).
+- Fix in `assets/theme.css` (now `theme.css?v=28` in all 12 pages, rule appended at EOF):
+  `@media(min-width:768px) and (max-width:1023px){header #hostBtn{display:none!important}header nav{gap:8px}}`
+  The button duplicates the «میزبان شوید» nav link; desktop (≥1024) still shows it. `#hostBtn` exists only in index.html.
+- Verified in browser (local + live GitHub Pages): scrollWidth == viewport at 640/700/767/768/800/900/1000/1023/1024/1280/1440; 768 screenshot clean.
+  Only index.html had the overflow — destinations/stay/about/faq/account were already 0.
+- Closed the old open item: hero has **no** «جستجوی اقامتگاه» CTA anymore (only the «جستجو» button inside the booking bar), so nothing duplicates «رزرو اقامتگاه جدید».
+- Backup of the touched files: `backups/20261119-nav-tablet-fit/` (theme.css, index.html). Commit `d54fe3d`.
