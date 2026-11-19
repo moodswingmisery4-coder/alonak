@@ -1,14 +1,14 @@
-# Makanak (آلونک) — session state
+# آلونک (ex-Makanak) — session state
 
-Last updated: 2026-11-18 — footer socials, 8 standalone info pages, unified back button; all deployed & verified live. HEAD `e704f03`.
+Last updated: 2026-11-19 — **project renamed makanak → alonak everywhere** (repo, folders, worker, D1, API host, JS globals, localStorage keys); deployed & verified live.
 
 ## HARD RULE — backup before every edit
-Before touching any project file, copy the files you are about to change into `backups/<YYYYMMDD>-<slug>/` (git-ignored, so it never lands in the repo) and mention the snapshot in the report. Rollback = copy back from that folder, or `git revert` / `git reset --hard <sha>` (every deployed step is its own commit). Snapshots so far: `backups/20261117-rename-alunak/`, `backups/20261117-header-arrow/`, `backups/20261117-panel-hamburger/`, `backups/20261117-panel-card-spacing/`, `backups/20261117-footer-social/`, `backups/20261117-info-pages/`, `backups/20261117-no-infocenter/`, `backups/20261117-back-home/`, `backups/20261117-back-unify/`.
+Before touching any project file, copy the files you are about to change into `backups/<YYYYMMDD>-<slug>/` (git-ignored, so it never lands in the repo) and mention the snapshot in the report. Rollback = copy back from that folder, or `git revert` / `git reset --hard <sha>` (every deployed step is its own commit). Snapshots so far: `backups/20261117-rename-alunak/`, `backups/20261117-header-arrow/`, `backups/20261117-panel-hamburger/`, `backups/20261117-panel-card-spacing/`, `backups/20261117-footer-social/`, `backups/20261117-info-pages/`, `backups/20261117-no-infocenter/`, `backups/20261117-back-home/`, `backups/20261117-back-unify/`, `backups/20261119-rename-alonak/`.
 
 ## Resume here (next session)
 - **Live asset versions** — **theme.css is now `?v=25` on every page** and must be bumped on any edit to it (`.back-home` lives there). info pages: `info.css?v=3`. stay.html: `theme.css?v=21`, `booking.js?v=13`, `catalog.js?v=1871`, `stay-data.js?v=1`, `stay-sections.js?v=6`, `auth.js?v=11`, `theme.js?v=4`. index.html: `auth.js?v=11`, `theme.js?v=4`, `catalog.js?v=1871`. destinations.html: `theme.css?v=21`, `catalog.js?v=1871`, `auth.js?v=11`, `theme.js?v=4`. about/guide: `theme.js?v=4`. Bump the exact `?v=` on every edit — Pages caches aggressively.
-- **Git:** frontend `main` in sync with origin, HEAD `e704f03` ("docs: session state + committed info-page generator"; previous: "back button: tag icon; icon-only square on mobile, label + icon on the left on desktop"). Tree clean. `makanak-worker` is **not** a git repo — snapshot `src/index.js`, `schema.sql` and the seeds before big edits.
-- **Local:** nothing running. Test with `python -m http.server <port>` in `D:/hermes/makanak`; verify live with `?cb=<timestamp>` and read computed styles/rects via JS — a `curl` hit alone proves nothing.
+- **Git:** frontend repo `moodswingmisery4-coder/alonak`, `main` in sync with origin, HEAD `5a66e31` ("docs: session state + committed info-page generator"; previous: "back button: tag icon; icon-only square on mobile, label + icon on the left on desktop"). Tree clean. `alonak-worker` is **not** a git repo — snapshot `src/index.js`, `schema.sql` and the seeds before big edits.
+- **Local:** nothing running. Test with `python -m http.server <port>` in `D:/hermes/alonak`; verify live with `?cb=<timestamp>` and read computed styles/rects via JS — a `curl` hit alone proves nothing.
 - **RTL UI rules (apply to every arrow):** glyphs `‹` `›` (U+2039/203A) and even `←`/`→` are Bidi_Mirrored and flip in `dir=rtl` — always use inline SVG. An arrow must point to the side it sits on (right arrow on the right, left arrow on the left); in RTL the first DOM child of a flex row renders on the right, right = back / left = forward.
 
 ## Done on 2026-11-17 (in order, each its own commit, all live)
@@ -23,6 +23,16 @@ Before touching any project file, copy the files you are about to change into `b
 
 - **Next candidates:** (1) give about.html/guide.html the same header; (2) move the header + pager CSS into one shared file (it is duplicated in stay.html and destinations.html now); (3) R2 for the 1421 gallery photos; (4) sample reviews; (5) long-open: `RESEND_API_KEY` and consent to delete the 6 old test accounts.
 
+## 2026-11-19 — full project rename makanak → alonak (deployed, verified)
+- GitHub repo renamed `makanak` → `alonak` (Pages config + `CNAME` survived the rename; `https_enforced` still true, cert `approved`). Old `…github.io/makanak/` is a 404 now — GitHub does not redirect Pages paths on a repo rename, the custom domain is the URL.
+- Local: `D:/hermes/makanak` → `alonak`, `makanak-worker` → `alonak-worker`, `makanak-preview/-shots` → `alonak-preview/-shots`; remote URL updated.
+- Worker `makanak-worker` → `alonak-worker`, D1 `makanak-db` → `alonak-db` (new DB, 307-query `d1 export` → import; 8 users / 84 stays / 7 bookings carried over, verified). Old worker, old DB and `api.makanak.kdns.fr` deleted — the host is NXDOMAIN.
+- API moved to **`https://api.alonak.kdns.fr/api`**, fallback `alonak-worker.makanak-app.workers.dev`. CORS list updated to the `alonak` origins.
+- Code sweep (42 hits / 12 files frontend, 12 in worker): `makanakAuth`→`alonakAuth`, `MakanakBooking/Sections`→`Alonak*`, `MAKANAK_STAYS/DETAILS`→`ALONAK_*`, `makanak_session` cookie → `alonak_session`, localStorage `makanak_token/_favorites/makanak-theme` → `alonak_*`, Persian «مکانک» → «آلونک» in the worker's mail/error copy. All `?v=` bumped.
+- **Key migration:** `assets/theme.js` starts with a one-time shim that copies every `makanak_*` key to its `alonak_*` name and deletes the old one, so returning users keep token/favourites/theme; readers also fall back to the legacy key. Verified live (seeded old keys → migrated, theme applied).
+- Not renamed on purpose: `makanak-app.workers.dev` (account subdomain). The `makanak.kdns.fr` zone still exists but holds no records.
+- Snapshot: `backups/20261119-rename-alonak/` (frontend) and `alonak-worker/backups/20261119-rename-alonak/` (worker + `dump.sql`).
+
 ## Stay detail page — 2026-11-16 (deployed)
 - `assets/stay-data.js` (v=1): generated from `jabama-parsed.json` — per stay id: area/building, bedrooms, bathrooms, Iranian/Western toilets, base+extra capacity, min nights, source rating + count, restricted rules, full amenity keys. Regenerate with `pdf-work/build_details.py` (matches by `sourceCode`).
 - `assets/stay-sections.js` (v=3): renders 6 blocks on stay.html — مشخصات کلی، امکانات مهم + bottom sheet «مشاهده همه امکانات»، ساعت ورود/خروج ۱۴:۰۰/۱۲:۰۰ + آکاردئون لغو، مقررات با ✓/✕ از `restricted_rules`، امتیاز (منبع جاباما) + نظرات واقعی کاربران مکانک.
@@ -31,14 +41,14 @@ Before touching any project file, copy the files you are about to change into `b
 - Worker: `capacity_base` column (seeded for all 84 stays from `seed-capacity-base.sql`), `quotePrice()` helper, booking POST returns nights_total/extra_guests/extra_per_night/extra_total; new `reviews` table + `GET /api/reviews?stay_id=` (public) and `POST /api/reviews` (auth, one per user per stay, 1–5, 700 chars, `verified_stay` flag when a confirmed booking exists).
 - Frontend versions on stay.html (current): booking.js v=13, auth.js v=9, theme.css v=20, catalog.js v=1871, stay-data.js v=1, stay-sections.js v=5, theme.js v=3.
 
-## Live surfaces
-- Frontend (GitHub Pages): https://moodswingmisery4-coder.github.io/makanak/
-- Frontend repo: https://github.com/moodswingmisery4-coder/makanak (branch main)
-- Local frontend: D:\hermes\makanak
-- Backend repo/local: D:\hermes\makanak-worker (Cloudflare Worker, module syntax)
-- API base 1 (primary): https://makanak-worker.makanak-app.workers.dev/api
-- API base 2 (fallback): https://makanak.kdns.fr/api — not routed any more (see Open)
-- D1 database: makanak-db (6d0fd00a-a76b-401b-9baf-9f31c55f2b45)
+## Live surfaces (after the 2026-11-19 rename)
+- Frontend (live): https://alonak.kdns.fr (GitHub Pages behind the custom domain; `…github.io/alonak/` 301s there)
+- Frontend repo: https://github.com/moodswingmisery4-coder/alonak (branch main)
+- Local frontend: D:\hermes\alonak
+- Backend repo/local: D:\hermes\alonak-worker (Cloudflare Worker, module syntax)
+- API base 1 (primary): https://api.alonak.kdns.fr/api (worker custom domain)
+- API base 2 (fallback): https://alonak-worker.makanak-app.workers.dev/api (`makanak-app` is the account's workers.dev subdomain — it cannot be renamed)
+- D1 database: alonak-db (442b756e-8945-4ef3-9ca8-fbca3229385f)
 - Tables: users (verified), sessions, stays (84 seeded from catalog.js, capacity_base seeded), bookings (nights), reviews, email_tokens, rate_limits
 
 ## Backend hardening — 2026-11-15 (deployed)
