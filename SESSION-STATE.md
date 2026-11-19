@@ -148,3 +148,13 @@ Before touching any project file, copy the files you are about to change into `b
   Only index.html had the overflow — destinations/stay/about/faq/account were already 0.
 - Closed the old open item: hero has **no** «جستجوی اقامتگاه» CTA anymore (only the «جستجو» button inside the booking bar), so nothing duplicates «رزرو اقامتگاه جدید».
 - Backup of the touched files: `backups/20261119-nav-tablet-fit/` (theme.css, index.html). Commit `d54fe3d`.
+
+## 2026-11-19 — worker moved to api.makanak.kdns.fr (live)
+- Worker `makanak-worker` custom domain: ~~makanak.kdns.fr~~ → **api.makanak.kdns.fr** (zone makanak.kdns.fr, id 757e5848447b74c9af78cb45bc79396f; account edd40933dd6db7dcdca3ba341639540f).
+  Deploy: `cd D:\hermes\makanak-worker && npx wrangler deploy --domains api.makanak.kdns.fr` (this *replaces* the custom-domain list — always pass the subdomain).
+- Old zone route `makanak.kdns.fr/*` → worker **deleted** (API `/zones/{id}/workers/routes/{route_id}` DELETE). Apex `makanak.kdns.fr` now has no A record — free for the frontend later (e.g. CNAME to GitHub Pages).
+- `wrangler.toml`: `workers_dev = true` was nested inside `[[d1_databases]]` (invalid, so each deploy disabled workers.dev) — moved to root. Fallback origin `https://makanak-worker.makanak-app.workers.dev` is live again.
+- Frontend `assets/auth.js` (v=15, all 4 pages): `API_BASES = ['https://api.makanak.kdns.fr/api', 'https://makanak-worker.makanak-app.workers.dev/api']`. Worker CORS allow-list is origin-based so no change was needed there.
+- Verified: `/api/health` = 200 + `{"ok":true}` on api subdomain and workers.dev; CORS preflight from github.io ok; from the live page `auth.js?v=15` loads and `GET /api/auth/me` → 200 from the page origin.
+- Backups: `makanak-worker/backups/20261119-subdomain/wrangler.toml`, `makanak/backups/20261119-api-subdomain/auth.js`. Commits: worker via wrangler deploy (version 9228dc0a), frontend `584189d`.
+- Gotcha: `git push` over HTTPS silently hangs from this box (git 2.53 + GCM); it succeeds with `GIT_TRACE=1 GIT_HTTP_TRACE=1` set and a 30s `timeout` (see D:\hermes\tmp\push.log). Plain/killed pushes leave origin/main unchanged — always confirm `git rev-parse origin/main`.
