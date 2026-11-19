@@ -210,3 +210,26 @@ curl -X PUT -H "Authorization: Bearer $GH" -H "Accept: application/vnd.github+js
 - Verified live on https://alonak.kdns.fr: 0 `.main-nav a` nodes; scrollWidth == viewport at 375/768/1024/1280/1440; header = logo right, host + login + theme toggle left, no overlap (desktop + 390px screenshots checked).
 - Leftovers: dead `.main-nav` CSS rules still sit in index.html's inline `<style>` (line ~21) — harmless, can be deleted in a cleanup pass. Nav targets `#stays`, `#inspiration`, `#host` are still reachable by scrolling; `about.html` is linked from the footer.
 - Backup: `backups/20261119-remove-nav/` (index.html, theme.css). Commit `3da8e3c`.
+
+## STOP POINT — 2026-11-19 (end of session)
+
+Everything is committed and pushed: `main` = `200c4c0`, working tree clean.
+
+Live right now (all verified this session):
+- **Site:** https://alonak.kdns.fr (GitHub Pages, `CNAME` = alonak.kdns.fr, https enforced, LE cert valid to 2027-02-17). `…github.io/makanak/*` 301s here.
+- **API:** https://api.makanak.kdns.fr/api (worker custom domain; CORS allows alonak.kdns.fr) + fallback https://makanak-worker.makanak-app.workers.dev/api.
+- Homepage header has no nav menu any more; host + login + theme toggle only.
+- Asset versions: `theme.css?v=29`, `auth.js?v=15`, `catalog.js?v=1871`, `info.css?v=3`.
+
+Open / next:
+1. Remove the now-dead `.main-nav` CSS from index.html's inline `<style>` (cosmetic cleanup).
+2. Resend email key still unset → `/api/health` reports `email:false`, so verify/reset emails can't be sent end-to-end (`npx wrangler secret put RESEND_API_KEY` in `D:\hermes\makanak-worker`, then set `MAIL_FROM` after a domain is verified).
+3. `www.alonak.kdns.fr` is in the worker CORS list but has no DNS record — add a CNAME `www` → `moodswingmisery4-coder.github.io` (DNS-only) if a www address is wanted.
+4. Apex `makanak.kdns.fr` is intentionally unused (only `api.` matters).
+
+Guardrails for the next session:
+- Backups live under `backups/<YYYYMMDD>-<slug>/`; name the snapshot in every report (Soheil's standing rule).
+- Deploy worker with `npx wrangler deploy --domains api.makanak.kdns.fr` (omitting `--domains` replaces the custom-domain list).
+- `git push` hangs silently unless wrapped: `GIT_TRACE=1 timeout 40 git push` then confirm `git rev-parse origin/main`.
+- Cloudflare DNS writes are NOT possible from here (wrangler OAuth token has workers scope only; dashboard is behind a bot challenge) — DNS changes are Soheil's.
+- Local `python3 -m http.server` preview is unstyled (Tailwind comes from cdn.tailwindcss.com, blocked in this environment) — do visual checks on the live Pages URL instead.
