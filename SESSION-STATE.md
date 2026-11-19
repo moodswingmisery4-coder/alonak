@@ -159,14 +159,18 @@ Before touching any project file, copy the files you are about to change into `b
 - Backups: `makanak-worker/backups/20261119-subdomain/wrangler.toml`, `makanak/backups/20261119-api-subdomain/auth.js`. Commits: worker via wrangler deploy (version 9228dc0a), frontend `584189d`.
 - Gotcha: `git push` over HTTPS silently hangs from this box (git 2.53 + GCM); it succeeds with `GIT_TRACE=1 GIT_HTTP_TRACE=1` set and a 30s `timeout` (see D:\hermes\tmp\push.log). Plain/killed pushes leave origin/main unchanged — always confirm `git rev-parse origin/main`.
 
-## PENDING — next session (stop point 2026-11-19)
+## DONE 2026-11-19 — site live on https://alonak.kdns.fr
 
-> **URGENT at stop time:** Soheil added a `CNAME` file (`makanak.kdns.fr`) through the GitHub UI (commit `7bd5a46`),
-> so Pages now 301-redirects **all** `…github.io/makanak/*` URLs to `https://makanak.kdns.fr/` — and that hostname
-> still has **no DNS record**, so the site is unreachable until the record below is created. Pages `cname` =
-> `makanak.kdns.fr`, `https_certificate.state` = `approved`, `protected_domain_state` = `unverified`.
-> Quick rollback if needed: delete `CNAME` from the repo root (site serves on github.io again), then re-add later.
+Superseded the pending apex task below (makanak.kdns.fr was dropped in favour of **alonak.kdns.fr**; Soheil set the DNS himself in Cloudflare).
 
+- DNS (verified via DoH): `alonak.kdns.fr` → 4 GitHub Pages A records (185.199.108-111.153). `makanak.kdns.fr` apex still has no record — unused, only the `api.` subdomain is used.
+- Repo: `CNAME` file = `alonak.kdns.fr` (commit `347f0f1`). Pages API: `cname` alonak.kdns.fr, `status` built, `https_enforced: true`, `https_certificate.state` = approved, `protected_domain_state` = unverified (cosmetic; A-record setup).
+- Let's Encrypt cert `CN=alonak.kdns.fr` (valid to 2027-02-17) served on **all four** Pages IPs; `http://` → 301 `https://alonak.kdns.fr/`; `…github.io/makanak/*` → 301 → `https://alonak.kdns.fr/`.
+- Worker `makanak-worker` CORS allow-list now also contains `https://alonak.kdns.fr` and `https://www.alonak.kdns.fr` (deploy version `b4fd2d0b`).
+- Verified in a real browser on the new origin: index (10 cards), destinations (84 stays), stay.html, account.html, about.html all render; `GET /api/health` → 200 `{ok:true}` and `/api/auth/me` → 200 from the page origin.
+- Backup: `backups/20261119-alonak-domain/` (CNAME), `makanak-worker/backups/20261119-subdomain/index.js`.
+
+### Old pending note (kept for history)
 **Task:** point the apex domain `makanak.kdns.fr` at the GitHub Pages site (only remaining step).
 
 Current live state (all verified working):
